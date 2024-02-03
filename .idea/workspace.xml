@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="12eac4aa-10e5-456c-b3b7-037b45f1ab0e" name="Changes" comment="create project WePayU">
-      <change afterPath="$PROJECT_DIR$/lib/easyaccept.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/easyaccept.jar:Zone.Identifier" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WePayU.iml" beforeDir="false" afterPath="$PROJECT_DIR$/WePayU.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-    </list>
+    <list default="true" id="12eac4aa-10e5-456c-b3b7-037b45f1ab0e" name="Changes" comment="create project WePayU" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,9 +30,10 @@
     "Application.Main.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/teteu/projects/poo/WePayUPOO/src/EasyAccept",
+    "last_opened_file_path": "/home/teteu/projects/poo/WePayUPOO/lib/easyaccept.jar",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -73,6 +68,7 @@
       <workItem from="1706973217952" duration="914000" />
       <workItem from="1706974445352" duration="834000" />
       <workItem from="1706975323221" duration="74000" />
+      <workItem from="1706975413084" duration="799000" />
     </task>
     <task id="LOCAL-00001" summary="create project WePayU">
       <option name="closed" value="true" />

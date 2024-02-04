@@ -1,5 +1,9 @@
 package br.ufal.ic.p2.wepayu.Employee;
+import br.ufal.ic.p2.wepayu.Exception.AtributoException;
 import br.ufal.ic.p2.wepayu.Exception.EmpregadoNaoExisteException;
+import br.ufal.ic.p2.wepayu.Exception.NomeException;
+import br.ufal.ic.p2.wepayu.Exception.TipoNaoAplicavalExcpetion;
+import br.ufal.ic.p2.wepayu.Utils.Validate;
 import br.ufal.ic.p2.wepayu.models.Types.EmpregadoComissionado;
 import br.ufal.ic.p2.wepayu.models.Types.EmpregadoHorista;
 import br.ufal.ic.p2.wepayu.models.Empregado;
@@ -19,7 +23,9 @@ public class ManageEmployee {
         return example;
     }
     public static String viewEmploy(String trabalhador, String atributo) throws Exception {
-        if (atributo.equalsIgnoreCase("nome")) {
+        if(Validate.isNull(trabalhador)){
+            throw new TipoNaoAplicavalExcpetion("Identificacao do empregado nao pode ser nula.");
+        } else if (atributo.equalsIgnoreCase("nome")) {
             return getEmpregado(trabalhador).getNome();
         } else if (atributo.equalsIgnoreCase("endereco")) {
             return getEmpregado(trabalhador).getEndereco();
@@ -29,14 +35,28 @@ public class ManageEmployee {
                 return Utils.toNumber(getEmpregado(trabalhador));
         } else if (atributo.equalsIgnoreCase("sindicalizado")) {
             return String.valueOf(getEmpregado(trabalhador).getSind());
-        }
-        else if(getEmpregado(trabalhador) instanceof EmpregadoComissionado && atributo.equalsIgnoreCase("comissao")) {
-            EmpregadoComissionado example = (EmpregadoComissionado) getEmpregado(trabalhador);
-            return String.valueOf(example.getComissao());
+        }else if(getEmpregado(trabalhador) instanceof EmpregadoComissionado example && atributo.equalsIgnoreCase("comissao")) {
+            return String.valueOf(EmpregadoComissionado.getComissao());
+        }else if(Validate.isNotAtributo(atributo)){
+            throw new AtributoException("Atributo nao existe.");
         }else{
             throw new EmpregadoNaoExisteException();
         }
     }
+
+    public static String viewEmployByName(String nome, int indice) throws Exception{
+
+        Iterator<Map.Entry<String, Empregado>> it = mapaNomes.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, Empregado> entry = it.next();
+            if (entry.getKey().equals(nome)) {
+                return nome;
+            }
+        }
+        throw new NomeException("Nao ha empregado com esse nome.");
+    }
+
+
     private  static Empregado getEmpregado(String id) throws EmpregadoNaoExisteException {
         if(!mapaNomes.containsKey(id)){
             throw new EmpregadoNaoExisteException();

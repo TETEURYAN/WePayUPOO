@@ -39,4 +39,14 @@ public class Validate {
         }
         return true;
     }
+    public static boolean isNotAtributo(String texto) {
+        Set<String> tiposValidos = new HashSet<>();
+        tiposValidos.add("nome");
+        tiposValidos.add("endereco");
+        tiposValidos.add("tipo");
+        tiposValidos.add("salario");
+        tiposValidos.add("sindicalizado");
+        tiposValidos.add("comissao");
+        return !tiposValidos.contains(texto.toLowerCase());
+    }
 }

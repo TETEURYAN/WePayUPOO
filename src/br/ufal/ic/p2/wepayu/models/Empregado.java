@@ -6,13 +6,19 @@ public class Empregado {
     private String nome;
     private String endereco;
     private String tipo;
-    private int salario;
+    private String salario;
 
-    public Empregado(String nome, String endereco, String tipo, int salario) throws EmpregadoNaoExisteException {
+    private String comissao;
+
+    private boolean sind;
+
+    public Empregado(String nome, String endereco, String tipo, String salario, boolean sind) throws EmpregadoNaoExisteException {
         this.nome = nome;
         this.endereco = endereco;
         this.tipo = tipo;
         this.salario = salario;
+        this.sind = sind;
+//        this.comissao = comissao;
     }
 
     public String getNome() {
@@ -27,8 +33,9 @@ public class Empregado {
         return tipo;
     }
 
-    public int getSalario() {
+    public  String getSalario() {
         return salario;
     }
+    public boolean getSind(){return sind;}
 
 }

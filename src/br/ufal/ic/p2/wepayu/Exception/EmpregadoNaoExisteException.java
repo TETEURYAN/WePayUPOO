@@ -5,6 +5,7 @@ public class EmpregadoNaoExisteException extends Exception{
     public String toString(){
         return "Empregado nao existe.";
     }
+
     public EmpregadoNaoExisteException(){
         super("Empregado nao existe.");
     }

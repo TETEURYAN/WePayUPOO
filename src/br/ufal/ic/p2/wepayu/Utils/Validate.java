@@ -1,0 +1,42 @@
+package br.ufal.ic.p2.wepayu.Utils;
+import java.util.Set;
+import java.util.HashSet;
+import br.ufal.ic.p2.wepayu.Utils.Utils;
+
+public class Validate {
+    public static boolean isNull(String texto) {
+
+        if ((texto == null) || (texto.replace(" ", "").equals(""))){
+            return true;
+        }
+        return false;
+    }
+    public static boolean isNotType(String texto) {
+        Set<String> tiposValidos = new HashSet<>();
+        tiposValidos.add("assalariado");
+        tiposValidos.add("horista");
+        tiposValidos.add("comissionado");
+        return !tiposValidos.contains(texto.toLowerCase());
+    }
+
+    public static boolean isNotSalary(String str) {
+        for (char c : str.toCharArray()) {
+            if (!Character.isDigit(c) && c != '.' && c != ',') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isNegative(String str) {
+        if (str.charAt(0) != '-') {
+            return false;
+        }
+        for (int i = 1; i < str.length(); i++) {
+            if (!Character.isDigit(str.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+}

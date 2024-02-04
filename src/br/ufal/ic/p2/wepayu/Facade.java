@@ -1,9 +1,12 @@
 package br.ufal.ic.p2.wepayu;
 import br.ufal.ic.p2.wepayu.Exception.EmpregadoNaoExisteException;
-import br.ufal.ic.p2.wepayu.employee.ManageEmployee;
+import br.ufal.ic.p2.wepayu.Exception.NomeNaoExisteException;
+import br.ufal.ic.p2.wepayu.Exception.EnderecoNaoExisteException;
+import br.ufal.ic.p2.wepayu.Exception.TipoInvalidoException;
+import br.ufal.ic.p2.wepayu.Utils.Validate;
+import br.ufal.ic.p2.wepayu.Employee.ManageEmployee;
 import br.ufal.ic.p2.wepayu.models.Empregado;
-
-import java.util.ArrayList;
+import br.ufal.ic.p2.wepayu.models.Types.EmpregadoComissionado;
 
 public class Facade {
     private static Empregado example= null;
@@ -19,13 +22,22 @@ public class Facade {
         return ManageEmployee.viewEmploy(emp, atributo);
     }
 
-    public String criarEmpregado(String nome, String endereco, String tipo, String salario) throws EmpregadoNaoExisteException {
+    public String criarEmpregado(String nome, String endereco, String tipo, String salario) throws Exception {
         example = new Empregado(nome, endereco, tipo, salario, false);
         String aux = ManageEmployee.createEmploy(example);
         zerarExample();
         return aux;
 
     }
+
+    public String criarEmpregado(String nome, String endereco, String tipo, String salario, String comissao) throws Exception {
+        example = new EmpregadoComissionado(nome, endereco, tipo, salario, false, comissao);
+        String aux = ManageEmployee.createEmploy(example);
+        zerarExample();
+        return aux;
+
+    }
+
 
     public void encerrarSistema() {
         // Salvar dados em disco ou outro meio persistente

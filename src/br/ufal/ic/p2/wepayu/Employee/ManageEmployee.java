@@ -1,5 +1,7 @@
-package br.ufal.ic.p2.wepayu.employee;
+package br.ufal.ic.p2.wepayu.Employee;
 import br.ufal.ic.p2.wepayu.Exception.EmpregadoNaoExisteException;
+import br.ufal.ic.p2.wepayu.models.Types.EmpregadoComissionado;
+import br.ufal.ic.p2.wepayu.models.Types.EmpregadoHorista;
 import br.ufal.ic.p2.wepayu.models.Empregado;
 import br.ufal.ic.p2.wepayu.Utils.Utils;
 
@@ -24,19 +26,17 @@ public class ManageEmployee {
         } else if (atributo.equalsIgnoreCase("tipo")) {
             return getEmpregado(trabalhador).getTipo();
         } else if (atributo.equalsIgnoreCase("salario")) {
-//                String example = String.valueOf(String.format("%.2f",(float)getEmpregado(trabalhador).getSalario()));
-//                example = example.replace(".",",");
-
-
                 return Utils.toNumber(getEmpregado(trabalhador));
         } else if (atributo.equalsIgnoreCase("sindicalizado")) {
             return String.valueOf(getEmpregado(trabalhador).getSind());
-        }else {
+        }
+        else if(getEmpregado(trabalhador) instanceof EmpregadoComissionado && atributo.equalsIgnoreCase("comissao")) {
+            EmpregadoComissionado example = (EmpregadoComissionado) getEmpregado(trabalhador);
+            return String.valueOf(example.getComissao());
+        }else{
             throw new EmpregadoNaoExisteException();
         }
-
     }
-
     private  static Empregado getEmpregado(String id) throws EmpregadoNaoExisteException {
         if(!mapaNomes.containsKey(id)){
             throw new EmpregadoNaoExisteException();

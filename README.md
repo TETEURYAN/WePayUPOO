@@ -8,7 +8,7 @@ A payment systems project with an emphasis on the Object Orientation paradigm, s
 Group:
 
   
-    Matheus Ryan | José Matheus
+    Matheus Ryan | Hugo Coelho
  </center>
 
  ## About the project

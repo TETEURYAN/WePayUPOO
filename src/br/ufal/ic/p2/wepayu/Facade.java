@@ -1,12 +1,17 @@
 package br.ufal.ic.p2.wepayu;
 import br.ufal.ic.p2.wepayu.Employee.ManageEmployee;
+import br.ufal.ic.p2.wepayu.Exception.EmpregadoNaoExisteException;
 import br.ufal.ic.p2.wepayu.models.Empregado;
 import br.ufal.ic.p2.wepayu.models.TypesEmpregados.EmpregadoAssalariado;
 import br.ufal.ic.p2.wepayu.models.TypesEmpregados.EmpregadoComissionado;
 import br.ufal.ic.p2.wepayu.models.TypesEmpregados.EmpregadoHorista;
 
+
+import java.util.ArrayList;
+
 public class Facade {
     private static Empregado example= null;
+
     private static void zerarExample(){
         example = null;
     }
@@ -15,8 +20,8 @@ public class Facade {
         ManageEmployee.initManage();
     };
 
-    public String getAtributoEmpregado(String emp, String atributo) throws Exception {
-        return ManageEmployee.viewEmploy(emp, atributo);
+    public String getAtributoEmpregado(String id, String atributo) throws Exception {
+        return ManageEmployee.viewEmploy(id, atributo);
     }
 
     public String criarEmpregado(String nome, String endereco, String tipo, String salario) throws Exception {
@@ -42,6 +47,40 @@ public class Facade {
         return ManageEmployee.viewEmployByName(nome, index);
     }
 
+    public void lancaCartao(String emp, String data, String horas) throws Exception {
+        Empregado e = ManageEmployee.getEmpregado(emp);
+
+        if (emp.equals(""))
+            throw new Exception("Identificacao do empregado nao pode ser nula.");
+
+        if (e == null)
+            throw new Exception("Empregado nao existe.");
+
+        if (e instanceof EmpregadoHorista) {
+            ((EmpregadoHorista) e).addRegistro(data, horas);
+        } else {
+            throw new Exception("Empregado nao eh horista.");
+        }
+    }
+    public static String getHorasNormaisTrabalhadas(String id, String init, String end) throws Exception {
+        Empregado e = ManageEmployee.getEmpregado(id);
+
+        if (e instanceof EmpregadoHorista) {
+            return ((EmpregadoHorista) e).getHorasNormaisTrabalhadas(init, end);
+        }
+
+        throw new Exception("Empregado nao eh horista.");
+
+    }
+    public String getHorasExtrasTrabalhadas (String id, String dataIncial, String dataFinal) throws Exception {
+        Empregado e = ManageEmployee.getEmpregado(id);
+
+        if (e instanceof EmpregadoHorista) {
+            return ((EmpregadoHorista) e).getHorasExtrasTrabalhadas(dataIncial, dataFinal);
+        }
+
+        throw new Exception("Empregado nao eh horista.");
+    }
     public void encerrarSistema() {
 
     }

@@ -2,7 +2,7 @@ package br.ufal.ic.p2.wepayu.models;
 import br.ufal.ic.p2.wepayu.Exception.*;
 import br.ufal.ic.p2.wepayu.Utils.Validate;
 
-public class Empregado {
+public abstract class Empregado {
     private String nome;
     private String endereco;
     private String tipo;
@@ -41,13 +41,10 @@ public class Empregado {
         return endereco;
     }
 
-    public String getTipo() {
-        return tipo;
-    }
+    public abstract String getTipo();
 
-    public  String getSalario() {
-        return salario;
-    }
+    public abstract  String getSalario();
+
     public boolean getSind(){return sind;}
 
 

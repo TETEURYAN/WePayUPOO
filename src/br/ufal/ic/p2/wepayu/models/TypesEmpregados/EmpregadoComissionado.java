@@ -7,6 +7,7 @@ import br.ufal.ic.p2.wepayu.models.Empregado;
 
 public class EmpregadoComissionado extends Empregado {
     private static String comissao;
+    private String salario;
     public EmpregadoComissionado(String nome, String endereco, String tipo, String salario, boolean sind, String comissao) throws Exception {
         super(nome, endereco, tipo, salario, sind);
 
@@ -24,8 +25,19 @@ public class EmpregadoComissionado extends Empregado {
 
 
         this.comissao = comissao;
+        this.salario = salario;
     }
     public static String getComissao(){
         return comissao;
+    }
+
+
+    public String getTipo() {
+        return "comissionado";
+    }
+
+    @Override
+    public String getSalario() {
+        return salario;
     }
 }

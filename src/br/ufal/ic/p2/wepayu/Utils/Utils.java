@@ -1,6 +1,6 @@
 package br.ufal.ic.p2.wepayu.Utils;
 import br.ufal.ic.p2.wepayu.models.Empregado;
-import br.ufal.ic.p2.wepayu.models.Types.EmpregadoHorista;
+import br.ufal.ic.p2.wepayu.models.TypesEmpregados.EmpregadoHorista;
 public class Utils {
     public static String toNumber(Empregado trabalhador){
         String salarioStr = null;

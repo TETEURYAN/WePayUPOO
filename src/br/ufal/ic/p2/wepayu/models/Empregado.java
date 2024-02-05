@@ -1,7 +1,6 @@
 package br.ufal.ic.p2.wepayu.models;
 import br.ufal.ic.p2.wepayu.Exception.*;
 import br.ufal.ic.p2.wepayu.Utils.Validate;
-import br.ufal.ic.p2.wepayu.models.Types.EmpregadoComissionado;
 
 public class Empregado {
     private String nome;

@@ -1,4 +1,4 @@
-package br.ufal.ic.p2.wepayu.models.Types;
+package br.ufal.ic.p2.wepayu.models.TypesEmpregados;
 
 import br.ufal.ic.p2.wepayu.Exception.SalarioException;
 import br.ufal.ic.p2.wepayu.Exception.TipoNaoAplicavalExcpetion;

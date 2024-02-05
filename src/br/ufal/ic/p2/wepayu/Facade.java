@@ -1,16 +1,9 @@
 package br.ufal.ic.p2.wepayu;
-import br.ufal.ic.p2.wepayu.Exception.EmpregadoNaoExisteException;
-import br.ufal.ic.p2.wepayu.Exception.NomeNaoExisteException;
-import br.ufal.ic.p2.wepayu.Exception.EnderecoNaoExisteException;
-import br.ufal.ic.p2.wepayu.Exception.TipoInvalidoException;
-import br.ufal.ic.p2.wepayu.Utils.Validate;
 import br.ufal.ic.p2.wepayu.Employee.ManageEmployee;
 import br.ufal.ic.p2.wepayu.models.Empregado;
-import br.ufal.ic.p2.wepayu.models.Types.EmpregadoAssalariado;
-import br.ufal.ic.p2.wepayu.models.Types.EmpregadoComissionado;
-import br.ufal.ic.p2.wepayu.models.Types.EmpregadoHorista;
-
-import javax.swing.*;
+import br.ufal.ic.p2.wepayu.models.TypesEmpregados.EmpregadoAssalariado;
+import br.ufal.ic.p2.wepayu.models.TypesEmpregados.EmpregadoComissionado;
+import br.ufal.ic.p2.wepayu.models.TypesEmpregados.EmpregadoHorista;
 
 public class Facade {
     private static Empregado example= null;
@@ -19,7 +12,7 @@ public class Facade {
     }
 
     public void zerarSistema() {
-//        ManageEmployee.initManage();
+        ManageEmployee.initManage();
     };
 
     public String getAtributoEmpregado(String emp, String atributo) throws Exception {
@@ -50,12 +43,12 @@ public class Facade {
     }
 
     public void encerrarSistema() {
-        // Salvar dados em disco ou outro meio persistente
+
     }
 
     // Funções para alterar dados dos funcionários
-    public void alteraEmpregado(String id, String atributo, String valor1) {
-
+    public void removerEmpregado(String id) throws Exception {
+        ManageEmployee.removeEmploy(id);
     }
 
     public void alteraEmpregado(String id, String atributo, boolean valor) {

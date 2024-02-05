@@ -5,17 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="12eac4aa-10e5-456c-b3b7-037b45f1ab0e" name="Changes" comment="create project WePayU">
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Exception/AtributoException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Exception/NomeException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Employee/ManageEmployee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Employee/ManageEmployee.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Facade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Facade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Utils/Validate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Utils/Validate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Utils/Utils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/Empregado.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/Empregado.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/Types/EmpregadoAssalariado.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/Types/EmpregadoAssalariado.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/Types/EmpregadoComissionado.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/Types/EmpregadoComissionado.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/Types/EmpregadoHorista.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/Types/EmpregadoHorista.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/Types/EmpregadoAssalariado.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/TypesEmpregados/EmpregadoAssalariado.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/Types/EmpregadoComissionado.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/TypesEmpregados/EmpregadoComissionado.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/Types/EmpregadoHorista.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/TypesEmpregados/EmpregadoHorista.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +93,8 @@
       <workItem from="1706975323221" duration="74000" />
       <workItem from="1706975413084" duration="799000" />
       <workItem from="1706989141103" duration="23827000" />
-      <workItem from="1707052800494" duration="21033000" />
+      <workItem from="1707052800494" duration="21870000" />
+      <workItem from="1707084742161" duration="6680000" />
     </task>
     <task id="LOCAL-00001" summary="create project WePayU">
       <option name="closed" value="true" />

@@ -1,4 +1,7 @@
 package br.ufal.ic.p2.wepayu.Utils;
+import java.time.format.DateTimeParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.HashSet;
 import br.ufal.ic.p2.wepayu.Utils.Utils;
@@ -48,5 +51,15 @@ public class Validate {
         tiposValidos.add("sindicalizado");
         tiposValidos.add("comissao");
         return !tiposValidos.contains(texto.toLowerCase());
+    }
+
+    public static boolean isValidDate(String date) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
+            LocalDate d = LocalDate.parse(date, formatter);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
     }
 }

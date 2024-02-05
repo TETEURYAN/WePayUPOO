@@ -30,4 +30,9 @@ public class Utils {
             return false;
         }
     }
+
+    public static float toFloat(String value){
+        String aux = value.replace(",",".");
+        return Float.parseFloat(aux);
+    }
 }

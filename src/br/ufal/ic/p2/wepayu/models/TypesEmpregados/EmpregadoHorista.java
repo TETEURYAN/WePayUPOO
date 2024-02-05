@@ -14,7 +14,6 @@ import java.util.Date;
 import java.util.Calendar;
 
 public class EmpregadoHorista extends Empregado {
-    private String comissao;
     private String SalarioHora;
 
     private ArrayList<PointCard> cartao;
@@ -30,7 +29,7 @@ public class EmpregadoHorista extends Empregado {
     }
 
 
-    public void addRegistro(String dataString, String horas) throws Exception {
+    public void addRegistroHorista(String dataString, String horas) throws Exception {
 
         if (Double.parseDouble(horas.replace(",", ".")) <= 0) {
             throw new Exception("Horas devem ser positivas.");
@@ -92,7 +91,7 @@ public class EmpregadoHorista extends Empregado {
             if (c.getData().isEqual(dateInit) ||
                     (c.getData().isAfter(dateInit) && c.getData().isBefore(dateEnd))) {
 
-                System.out.println(c.getData() + " " + c.getHoras());
+//                System.out.println(c.getData() + " " + c.getHoras());
 
                 if (c.getHoras() > 8) {
                     horasAcumuladas += 8.0;
@@ -130,9 +129,6 @@ public class EmpregadoHorista extends Empregado {
             return Double.toString(horasAcumuladas).replace(".", ",");
 
         return Integer.toString((int) horasAcumuladas);
-    }
-    public String getComissao() {
-        return comissao;
     }
 
     public String getSalarioHora(){

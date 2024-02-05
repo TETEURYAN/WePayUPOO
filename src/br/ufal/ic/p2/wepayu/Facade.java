@@ -1,13 +1,10 @@
 package br.ufal.ic.p2.wepayu;
-import br.ufal.ic.p2.wepayu.Employee.ManageEmployee;
-import br.ufal.ic.p2.wepayu.Exception.EmpregadoNaoExisteException;
+import br.ufal.ic.p2.wepayu.Managment.Manage;
 import br.ufal.ic.p2.wepayu.models.Empregado;
+import br.ufal.ic.p2.wepayu.models.Services.Syndicate;
 import br.ufal.ic.p2.wepayu.models.TypesEmpregados.EmpregadoAssalariado;
 import br.ufal.ic.p2.wepayu.models.TypesEmpregados.EmpregadoComissionado;
 import br.ufal.ic.p2.wepayu.models.TypesEmpregados.EmpregadoHorista;
-
-
-import java.util.ArrayList;
 
 public class Facade {
     private static Empregado example= null;
@@ -17,11 +14,11 @@ public class Facade {
     }
 
     public void zerarSistema() {
-        ManageEmployee.initManage();
+        Manage.initManage();
     };
 
     public String getAtributoEmpregado(String id, String atributo) throws Exception {
-        return ManageEmployee.viewEmploy(id, atributo);
+        return Manage.viewEmploy(id, atributo);
     }
 
     public String criarEmpregado(String nome, String endereco, String tipo, String salario) throws Exception {
@@ -30,40 +27,40 @@ public class Facade {
         }else{
             example = new EmpregadoHorista(nome, endereco, tipo, salario);
         }
-        String aux = ManageEmployee.createEmploy(example);
+        String aux = Manage.createEmploy(example);
         zerarExample();
         return aux;
     }
 
     public String criarEmpregado(String nome, String endereco, String tipo, String salario, String comissao) throws Exception {
         example = new EmpregadoComissionado(nome, endereco, tipo, salario, false, comissao);
-        String aux = ManageEmployee.createEmploy(example);
+        String aux = Manage.createEmploy(example);
         zerarExample();
         return aux;
 
     }
 
     public String getEmpregadoPorNome(String nome, int index) throws Exception {
-        return ManageEmployee.viewEmployByName(nome, index);
+        return Manage.viewEmployByName(nome, index);
     }
 
     public void lancaCartao(String emp, String data, String horas) throws Exception {
-        Empregado e = ManageEmployee.getEmpregado(emp);
+        Empregado e = Manage.getEmpregado(emp);
 
-        if (emp.equals(""))
-            throw new Exception("Identificacao do empregado nao pode ser nula.");
-
-        if (e == null)
-            throw new Exception("Empregado nao existe.");
+//        if (emp.equals(""))
+//            throw new Exception("Identificacao do empregado nao pode ser nula.");
+//
+//        if (e == null)
+//            throw new Exception("Empregado nao existe.");
 
         if (e instanceof EmpregadoHorista) {
-            ((EmpregadoHorista) e).addRegistro(data, horas);
+            ((EmpregadoHorista) e).addRegistroHorista(data, horas);
         } else {
             throw new Exception("Empregado nao eh horista.");
         }
     }
     public static String getHorasNormaisTrabalhadas(String id, String init, String end) throws Exception {
-        Empregado e = ManageEmployee.getEmpregado(id);
+        Empregado e = Manage.getEmpregado(id);
 
         if (e instanceof EmpregadoHorista) {
             return ((EmpregadoHorista) e).getHorasNormaisTrabalhadas(init, end);
@@ -73,7 +70,7 @@ public class Facade {
 
     }
     public String getHorasExtrasTrabalhadas (String id, String dataIncial, String dataFinal) throws Exception {
-        Empregado e = ManageEmployee.getEmpregado(id);
+        Empregado e = Manage.getEmpregado(id);
 
         if (e instanceof EmpregadoHorista) {
             return ((EmpregadoHorista) e).getHorasExtrasTrabalhadas(dataIncial, dataFinal);
@@ -81,17 +78,54 @@ public class Facade {
 
         throw new Exception("Empregado nao eh horista.");
     }
+
+    public void lancaVenda(String id, String data, String valor) throws Exception {
+        String ans =  valor.replace(",", ".");
+        float value = Float.parseFloat(ans);
+        Empregado e = Manage.getEmpregado(id);
+        if (e instanceof EmpregadoComissionado) {
+            ((EmpregadoComissionado) e).addRegistroComissao(data, value);
+        } else {
+            throw new Exception("Empregado nao eh comissionado.");
+        }
+    }
+
+    public String getVendasRealizadas(String id, String dataInicial, String dataFinal) throws Exception {
+        Empregado e = Manage.getEmpregado(id);
+
+        if (e instanceof EmpregadoComissionado) {
+            return ((EmpregadoComissionado) e).getSales(dataInicial, dataFinal);
+        }
+        throw new Exception("Empregado nao eh comissionado.");
+
+    }
+
+    public String getTaxasServico(String id, String dataInit, String dataFinal) throws Exception {
+        return Manage.seeTax(id, dataInit,dataFinal);
+    }
+
     public void encerrarSistema() {
 
     }
 
-    // Funções para alterar dados dos funcionários
-    public void removerEmpregado(String id) throws Exception {
-        ManageEmployee.removeEmploy(id);
+    public void lancaTaxaServico(String id, String data, String value) throws Exception {
+        Manage.addTax(id, data, value);
     }
 
-    public void alteraEmpregado(String id, String atributo, boolean valor) {
+    // Funções para alterar dados dos funcionários
+    public void removerEmpregado(String id) throws Exception {
+        Manage.removeEmploy(id);
+    }
 
+    public void alteraEmpregado(String id, String atributo, String valor) throws Exception {
+        Manage.changeEmploy(id, atributo, valor);
+    }
+
+    public void alteraEmpregado(String id, String atributo, boolean valor, String IdSind, String addValue) throws Exception {
+        Manage.changeEmploy(id, atributo, valor, IdSind, addValue);
+    }
+    public void alteraEmpregado(String id, String atributo, boolean valor) throws Exception {
+        Manage.changeEmploy(id, atributo, valor);
     }
 
     public void alteraEmpregado(String id, String atributo, String valor1, String valor2, String valor3) {

@@ -84,7 +84,10 @@ public class ManageEmployee {
 
 
 
-    public   static Empregado getEmpregado(String id) throws EmpregadoNaoExisteException {
+    public   static Empregado getEmpregado(String id) throws Exception {
+        if(Validate.isNull(id)){
+            throw new TipoNaoAplicavalExcpetion("Identificacao do empregado nao pode ser nula.");
+        }
         if(!mapaNomes.containsKey(id)){
             throw new EmpregadoNaoExisteException();
         }

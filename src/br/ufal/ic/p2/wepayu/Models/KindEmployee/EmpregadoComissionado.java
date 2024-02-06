@@ -53,38 +53,32 @@ public class EmpregadoComissionado extends Empregado {
 
     public String getVendas(String dataInicial, String dataFinal) throws Exception {
 
-        double vendasRealizadas = 0;
+        double sales = 0;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
 
         LocalDate dateInit = null;
         LocalDate dateEnd = null;
 
-        try {dateInit = LocalDate.parse(Validate.valiDate(dataInicial), formatter);}
-        catch (Exception e) {throw new Exception("Data inicial invalida.");}
+        try {
+            dateInit = LocalDate.parse(Validate.valiDate(dataInicial), formatter);
+        } catch (Exception e) {throw new Exception("Data inicial invalida.");}
 
-        try{dateEnd = LocalDate.parse(Validate.valiDate(dataFinal), formatter);}
-        catch (Exception e) {throw new Exception("Data final invalida.");}
+        try{
+            dateEnd = LocalDate.parse(Validate.valiDate(dataFinal), formatter);
+        } catch (Exception e) {throw new Exception("Data final invalida.");}
 
-        if (dateInit.isAfter(dateEnd)) {
-            throw new ExceptionErrorMessage("Data inicial nao pode ser posterior aa data final.");
-        }
-
-        if (dateInit.isEqual(dateEnd)) {
-            return "0,00";
-        }
+        if (dateInit.isAfter(dateEnd)) throw new ExceptionErrorMessage("Data inicial nao pode ser posterior aa data final.");
+        if (dateInit.isEqual(dateEnd)) return "0,00";
 
         for (CardSale c : this.vendas) {
             if (c.getData().isEqual(dateInit) ||
                     (c.getData().isAfter(dateInit) && c.getData().isBefore(dateEnd))) {
-                vendasRealizadas += c.getHoras();
+                sales += c.getHoras();
             }
         }
 
-        if (vendasRealizadas == 0) {
-            return "0,00";
-        }
-
-        return Double.toString(vendasRealizadas).replace(".",",") + "0";
+        if (sales == 0) return "0,00";
+        return Double.toString(sales).replace(".",",") + "0";
     }
 
     @Override

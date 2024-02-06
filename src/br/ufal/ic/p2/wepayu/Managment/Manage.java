@@ -1,4 +1,5 @@
 package br.ufal.ic.p2.wepayu.Managment;
+import br.ufal.ic.p2.wepayu.Exceptions.ExceptionErrorMessage;
 import br.ufal.ic.p2.wepayu.Models.Empregado;
 import br.ufal.ic.p2.wepayu.Models.Syndicate;
 
@@ -17,6 +18,18 @@ public class Manage {
 
     public static Empregado getEmpregado(String key) {
         return employee.get(key);
+    }
+
+    public static String getEmpregadoIDByNome(String nome, int index) throws ExceptionErrorMessage {
+        int iterator = 0;
+
+        for (Map.Entry<String, Empregado> entry : employee.entrySet()) {
+            Empregado e = entry.getValue();
+
+            if (nome.contains(e.getNome())) iterator++;
+            if (iterator == index) return entry.getKey();
+        }
+        throw new ExceptionErrorMessage("Nao ha empregado com esse nome.");
     }
 
     public static String getEmpregadoByIDSind(String idSindical) {

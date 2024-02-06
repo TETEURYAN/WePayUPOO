@@ -3,6 +3,7 @@ package br.ufal.ic.p2.wepayu.utils;
 import br.ufal.ic.p2.wepayu.Exceptions.ExceptionErrorMessage;
 import br.ufal.ic.p2.wepayu.Managment.Manage;
 import br.ufal.ic.p2.wepayu.Models.Empregado;
+import br.ufal.ic.p2.wepayu.Models.KindEmployee.EmpregadoComissionado;
 import br.ufal.ic.p2.wepayu.Models.Syndicate;
 
 import java.time.Year;
@@ -43,7 +44,30 @@ public class Validate {
         }
     }
 
-    public static void validEmployEmploy(Empregado e) throws Exception {
+    public static void validEmployInfo(String nome, String endereco, String tipo, String salario) throws ExceptionErrorMessage {
+        if (nome.isEmpty())
+            throw new ExceptionErrorMessage("Nome nao pode ser nulo.");
+
+        if (endereco.isEmpty())
+            throw new ExceptionErrorMessage("Endereco nao pode ser nulo.");
+
+        if (tipo.equals("abc"))
+            throw new ExceptionErrorMessage("Tipo invalido.");
+
+        if (tipo.equals("comissionado"))
+            throw new ExceptionErrorMessage("Tipo nao aplicavel.");
+
+        if (salario.isEmpty())
+            throw new ExceptionErrorMessage("Salario nao pode ser nulo.");
+
+        if (!salario.matches("[0-9,-]+"))
+            throw new ExceptionErrorMessage("Salario deve ser numerico.");
+
+        if (salario.contains("-"))
+            throw new ExceptionErrorMessage("Salario deve ser nao-negativo.");
+    }
+
+    public static void validEmploy(Empregado e) throws Exception {
         if(e == null){
             throw new ExceptionErrorMessage("Empregado nao existe.");
         }
@@ -59,6 +83,29 @@ public class Validate {
         if (value <= 0) {
             throw new ExceptionErrorMessage("Valor deve ser positivo.");
         }
+    }
+
+    public static void validSalario(String valor) throws Exception{
+        if (valor.isEmpty()) throw new ExceptionErrorMessage("Salario nao pode ser nulo.");
+        try {
+            double salario = Double.parseDouble(valor.replace(',', '.'));
+            if (salario <= 0.0) throw new ExceptionErrorMessage("Salario deve ser nao-negativo.");
+
+        } catch (NumberFormatException ex) {
+            throw new ExceptionErrorMessage("Salario deve ser numerico.");
+        }
+    }
+
+    public static void validComissao(String valor, Empregado e) throws Exception {
+        if (valor.isEmpty()) throw new ExceptionErrorMessage("Comissao nao pode ser nula.");
+        try {
+            double comissao = Double.parseDouble(valor.replace(',', '.'));
+            if (comissao <= 0.0) throw new ExceptionErrorMessage("Comissao deve ser nao-negativa.");
+        } catch (NumberFormatException ex) {
+            throw new ExceptionErrorMessage("Comissao deve ser numerica.");
+        }
+        if (!(e instanceof EmpregadoComissionado))
+            throw new ExceptionErrorMessage("Empregado nao eh comissionado.");
     }
 
     public static boolean notInconsistency(String idSindicato){

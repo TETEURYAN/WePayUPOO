@@ -3,6 +3,8 @@ package br.ufal.ic.p2.wepayu.Models.KindEmployee;
 import br.ufal.ic.p2.wepayu.Exceptions.ExceptionErrorMessage;
 import br.ufal.ic.p2.wepayu.Models.KindCard.CardPoint;
 import br.ufal.ic.p2.wepayu.Models.Empregado;
+import br.ufal.ic.p2.wepayu.utils.Utils;
+import br.ufal.ic.p2.wepayu.utils.Validate;
 
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
@@ -41,67 +43,41 @@ public class EmpregadoHorista extends Empregado {
 
     }
 
-    public String getHorasNormaisTrabalhadas(String dataIncial, String dataFinal) throws ExceptionErrorMessage {
+    public String getHorasNormaisTrabalhadas(String dataInicial, String dataFinal) throws Exception {
 
-        double horasAcumuladas = 0;
+        double horaExtra = 0;
         LocalDate dateInit;
         LocalDate dateEnd;
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("d/M/yyyy");
 
-        int d = 0, m = 0, y, i = 0;
+        try {dateInit = LocalDate.parse(Validate.valiDate(dataInicial), formato);}
+        catch (Exception e) {throw new Exception("Data inicial invalida.");}
 
-        for (String s : dataFinal.split("/")) {
-            if (i == 0) {
-                d = Integer.parseInt(s);
-                i++;
-            } else if (i == 1) {
-                m = Integer.parseInt(s);
-                i++;
-            } else {
-                y = Integer.parseInt(s);
-            }
-        }
-
-        if (m == 2 && d > 29) {
-            throw new ExceptionErrorMessage("Data final invalida.");
-        }
-
+        try{dateEnd = LocalDate.parse(Validate.valiDate(dataFinal), formato);}
+        catch (Exception e) {throw new Exception("Data final invalida.");}
         dateEnd = LocalDate.parse(dataFinal, formato);
 
-        try {
-            dateInit = LocalDate.parse(dataIncial, formato);
-        } catch (DateTimeParseException e) {
-            throw new ExceptionErrorMessage("Data inicial invalida.");
-        }
-
-        if (dateInit.isAfter(dateEnd)) {
-            throw new ExceptionErrorMessage("Data inicial nao pode ser posterior aa data final.");
-        }
-
-        if (dateInit.isEqual(dateEnd)) {
-            return "0";
-        }
+        if (dateInit.isAfter(dateEnd)) throw new ExceptionErrorMessage("Data inicial nao pode ser posterior aa data final.");
+        if (dateInit.isEqual(dateEnd)) return "0";
 
         for (CardPoint c : cartao) {
             if (c.getData().isEqual(dateInit) ||
                     (c.getData().isAfter(dateInit) && c.getData().isBefore(dateEnd))) {
 
                 if (c.getHoras() > 8) {
-                    horasAcumuladas += 8.0;
+                    horaExtra += 8.0;
                 } else {
-                    horasAcumuladas += c.getHoras();
+                    horaExtra += c.getHoras();
                 }
             }
         }
 
-        if (horasAcumuladas != (int) horasAcumuladas)
-            return Double.toString(horasAcumuladas).replace(".", ",");
-
-        return Integer.toString((int) horasAcumuladas);
+        if (horaExtra != (int) horaExtra) return Utils.DoubleString(horaExtra);
+        return Integer.toString((int) horaExtra);
     }
 
     public String getHorasExtrasTrabalhadas(String dataIncial, String dataFinal) {
-        double horasAcumuladas = 0;
+        double horaExtra = 0;
 
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("d/M/yyyy");
 
@@ -113,15 +89,13 @@ public class EmpregadoHorista extends Empregado {
                     (c.getData().isAfter(dateInit) && c.getData().isBefore(dateEnd))) {
 
                 if (c.getHoras() > 8) {
-                    horasAcumuladas += (c.getHoras() - 8.0);
+                    horaExtra += (c.getHoras() - 8.0);
                 }
             }
         }
 
-        if (horasAcumuladas != (int) horasAcumuladas)
-            return Double.toString(horasAcumuladas).replace(".", ",");
-
-        return Integer.toString((int) horasAcumuladas);
+        if (horaExtra != (int) horaExtra) return Double.toString(horaExtra).replace(".", ",");
+        return Integer.toString((int) horaExtra);
     }
 
     @Override

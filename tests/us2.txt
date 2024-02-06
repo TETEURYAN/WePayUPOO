@@ -4,7 +4,7 @@
 # (escrevi os testes mas nao os executei ...)
 #####################################################################################
 
-# User Story de adicao de empregado
+# User Story de remocao de empregado
 
 zerarSistema
 

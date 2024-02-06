@@ -1,13 +1,13 @@
-package br.ufal.ic.p2.wepayu.models;
+package br.ufal.ic.p2.wepayu.Models.KindCard;
 
 import java.time.LocalDate;
 
-public class PointCard {
+public class CardPoint {
 
     private LocalDate data;
     private Double horas;
 
-    public PointCard (LocalDate data, Double horas) {
+    public CardPoint(LocalDate data, Double horas) {
         this.data = data;
         this.horas = horas;
     }

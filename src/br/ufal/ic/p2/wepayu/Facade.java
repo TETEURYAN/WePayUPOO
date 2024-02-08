@@ -92,7 +92,6 @@ public class Facade {
 
         if (endereco.isEmpty())
             throw new ExceptionErrorMessage("Endereco nao pode ser nulo.");
-
         if (tipo.equals("abc"))
             throw new ExceptionErrorMessage("Tipo invalido.");
 

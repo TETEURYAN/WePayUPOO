@@ -6,48 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="12eac4aa-10e5-456c-b3b7-037b45f1ab0e" name="Changes" comment="create project WePayU">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/easyaccept.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/easyaccept.jar:Zone.Identifier" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Exception/AtributoException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Exception/EmployeException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Exception/EmpregadoNaoExisteException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Exception/EnderecoNaoExisteException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Exception/NomeException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Exception/NomeNaoExisteException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Exception/SalarioException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Exception/TipoInvalidoException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Exception/TipoNaoAplicavalExcpetion.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Facade.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Managment/Manage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Utils/Utils.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Utils/Validate.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/Empregado.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/Services/Syndicate.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/TypesEmpregados/EmpregadoAssalariado.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/TypesEmpregados/EmpregadoComissionado.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/TypesEmpregados/EmpregadoHorista.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/TypesEmpregados/Sales/PointCard.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/TypesEmpregados/Sales/SaleCard.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/TypesEmpregados/Sales/ServiceCard.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/us1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/us10.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/us10_1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/us1_1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/us2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/us2_1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/us3.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/us3_1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/us4.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/us4_1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/us5.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/us5_1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/us6.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/us6_1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/us7.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/us8.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/us9.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/us9_1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Facade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Facade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindEmployee/EmpregadoComissionado.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindEmployee/EmpregadoComissionado.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,29 +41,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Application.Main.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/teteu/projects/poo/cc-p2-2023.2",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "onboarding.tips.debug.path": "/home/teteu/projects/poo/WePayU/src/Main.java",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "reference.settings.ide.settings.new.ui",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/teteu/projects/poo/cc-p2-2023.2&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;/home/teteu/projects/poo/WePayU/src/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.new.ui&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -132,6 +92,8 @@
       <workItem from="1707095198679" duration="7558000" />
       <workItem from="1707133685445" duration="26630000" />
       <workItem from="1707174062957" duration="11375000" />
+      <workItem from="1707228096111" duration="67000" />
+      <workItem from="1707360764383" duration="321000" />
     </task>
     <task id="LOCAL-00001" summary="create project WePayU">
       <option name="closed" value="true" />

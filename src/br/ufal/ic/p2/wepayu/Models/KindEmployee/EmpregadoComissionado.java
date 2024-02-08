@@ -38,9 +38,7 @@ public class EmpregadoComissionado extends Empregado {
 
     public void addVenda(String dataString, String valor) throws Exception {
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("d/M/yyyy");
-
         double value = Utils.quitValue(valor);
-
         Validate.validValue(value);
 
         try {
@@ -55,7 +53,6 @@ public class EmpregadoComissionado extends Empregado {
 
         double sales = 0;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
-
         LocalDate dateInit = null;
         LocalDate dateEnd = null;
 

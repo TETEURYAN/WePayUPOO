@@ -1,4 +1,4 @@
-package br.ufal.ic.p2.wepayu.utils;
+package br.ufal.ic.p2.wepayu.Utils;
 
 import br.ufal.ic.p2.wepayu.Exceptions.ExceptionErrorMessage;
 import br.ufal.ic.p2.wepayu.Managment.Manage;

@@ -1,5 +1,6 @@
 package br.ufal.ic.p2.wepayu;
 
+import br.ufal.ic.p2.wepayu.Banking.Banking;
 import br.ufal.ic.p2.wepayu.Exceptions.ExceptionErrorMessage;
 import br.ufal.ic.p2.wepayu.Models.*;
 import br.ufal.ic.p2.wepayu.Managment.Manage;
@@ -10,18 +11,19 @@ import br.ufal.ic.p2.wepayu.Models.KindEmployee.EmpregadoHorista;
 import br.ufal.ic.p2.wepayu.Models.KindPayment.Bank;
 import br.ufal.ic.p2.wepayu.Models.KindPayment.Fedex;
 import br.ufal.ic.p2.wepayu.Models.KindPayment.Hands;
-import br.ufal.ic.p2.wepayu.utils.Utils;
-import br.ufal.ic.p2.wepayu.utils.Validate;
+import br.ufal.ic.p2.wepayu.Utils.Utils;
+import br.ufal.ic.p2.wepayu.Utils.Validate;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.HashMap;
-import java.util.Map;
+
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
 
 public class Facade {
     public void zerarSistema() {
-        Manage.employee = new HashMap<String, Empregado>();
+        Banking.zerarSystem();
     }
 
     public String totalFolha(String data){
@@ -79,9 +81,18 @@ public class Facade {
     public String criarEmpregado(String nome, String endereco, String tipo, String salario) throws ExceptionErrorMessage {
 
         Validate.validEmployInfo(nome, endereco, tipo, salario);
-        if (tipo.equals("assalariado")) return Manage.setEmpregado(new EmpregadoAssalariado(nome, endereco, salario));
-        else if (tipo.equals("horista")) return Manage.setEmpregado(new EmpregadoHorista(nome, endereco, salario));
-
+        if (tipo.equals("assalariado")){
+            EmpregadoAssalariado e = new EmpregadoAssalariado(nome, endereco, salario);
+            String ans = Manage.setEmpregado(e);
+            Banking.addEmpregado(ans, e);
+            return ans;
+        }
+        else if (tipo.equals("horista")){
+            EmpregadoHorista e = new EmpregadoHorista(nome, endereco, salario);
+            String ans = Manage.setEmpregado(e);
+            Banking.addEmpregado(ans, e);
+            return ans;
+        }
         return "0";
     }
 
@@ -116,17 +127,21 @@ public class Facade {
         if (comissao.contains("-"))
             throw new ExceptionErrorMessage("Comissao deve ser nao-negativa.");
 
-        return Manage.setEmpregado(new EmpregadoComissionado(nome, endereco, salario, comissao));
+        EmpregadoComissionado e = new EmpregadoComissionado(nome, endereco, salario, comissao);
+        String ans = Manage.setEmpregado(e);
+        Banking.addEmpregado(ans, e);
+
+        return ans;
     }
 
 
     public void removerEmpregado(String id) throws Exception {
+        Banking.giveNewEmploy();
         Empregado e = Manage.getEmpregado(id);
 
         Validate.validIDEmploy(id);
         Validate.validEmploy(e);
-
-        Manage.employee.remove(id);
+        Banking.removeEmploy(e);
     }
 
     public void alteraEmpregado(String emp, String atributo, String valor) throws Exception {
@@ -213,6 +228,7 @@ public class Facade {
     }
 
     public String getAtributoEmpregado(String emp, String atributo) throws Exception {
+        Banking.giveNewEmploy();
         Empregado e = Manage.getEmpregado(emp);
         Validate.validIDEmploy(emp);
         Validate.validEmploy(e);
@@ -261,6 +277,7 @@ public class Facade {
 
     }
     public String getEmpregadoPorNome(String nome, int indice) throws ExceptionErrorMessage {
+        Banking.giveNewEmploy();
         return Manage.getEmpregadoIDByNome(nome, indice);
     }
 

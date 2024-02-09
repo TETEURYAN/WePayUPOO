@@ -3,18 +3,23 @@ package br.ufal.ic.p2.wepayu.Models.KindEmployee;
 import br.ufal.ic.p2.wepayu.Exceptions.ExceptionErrorMessage;
 import br.ufal.ic.p2.wepayu.Models.KindCard.CardPoint;
 import br.ufal.ic.p2.wepayu.Models.Empregado;
-import br.ufal.ic.p2.wepayu.utils.Utils;
-import br.ufal.ic.p2.wepayu.utils.Validate;
+import br.ufal.ic.p2.wepayu.Utils.Utils;
+import br.ufal.ic.p2.wepayu.Utils.Validate;
 
+import java.io.Serializable;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
-public class EmpregadoHorista extends Empregado {
+public class EmpregadoHorista extends Empregado implements Serializable {
 
     private String salarioPorHora;
     private ArrayList<CardPoint> cartao;
+
+    public EmpregadoHorista(){
+
+    }
 
     public EmpregadoHorista(String nome, String endereco, String salarioPorHora) {
         super(nome, endereco);

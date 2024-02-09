@@ -3,19 +3,24 @@ package br.ufal.ic.p2.wepayu.Models.KindEmployee;
 import br.ufal.ic.p2.wepayu.Exceptions.ExceptionErrorMessage;
 import br.ufal.ic.p2.wepayu.Models.KindCard.CardSale;
 import br.ufal.ic.p2.wepayu.Models.Empregado;
-import br.ufal.ic.p2.wepayu.utils.Utils;
-import br.ufal.ic.p2.wepayu.utils.Validate;
+import br.ufal.ic.p2.wepayu.Utils.Utils;
+import br.ufal.ic.p2.wepayu.Utils.Validate;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
-public class EmpregadoComissionado extends Empregado {
+public class EmpregadoComissionado extends Empregado implements Serializable {
 
     private String taxaComissao;
     private String salarioMensal;
     private ArrayList<CardSale> vendas;
+
+    public EmpregadoComissionado(){
+
+    }
 
     public EmpregadoComissionado(String nome, String endereco, String salarioMensal, String taxaDeComissao) {
         super(nome, endereco);

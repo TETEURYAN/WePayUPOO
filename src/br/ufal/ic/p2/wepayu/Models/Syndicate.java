@@ -1,13 +1,18 @@
 package br.ufal.ic.p2.wepayu.Models;
 
 import br.ufal.ic.p2.wepayu.Models.KindCard.CardService;
-import br.ufal.ic.p2.wepayu.utils.Validate;
+import br.ufal.ic.p2.wepayu.Utils.Validate;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class Syndicate {
+public class Syndicate implements Serializable {
+
+    public Syndicate(){
+
+    }
     private String idMembro;
     private double adicionalSindicato;
     private ArrayList<CardService> services;

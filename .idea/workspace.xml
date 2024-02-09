@@ -5,9 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="12eac4aa-10e5-456c-b3b7-037b45f1ab0e" name="Changes" comment="create project WePayU">
+      <change afterPath="$PROJECT_DIR$/.attach_pid3899" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/listaEmpregados.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Banking/Banking.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Utils/Utils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Facade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Facade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Managment/Manage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Managment/Manage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/Empregado.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/Empregado.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindEmployee/EmpregadoAssalariado.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindEmployee/EmpregadoAssalariado.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindEmployee/EmpregadoComissionado.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindEmployee/EmpregadoComissionado.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindEmployee/EmpregadoHorista.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindEmployee/EmpregadoHorista.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindPayment/Bank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindPayment/Bank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/Syndicate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/Syndicate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/utils/Utils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/utils/Validate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Utils/Validate.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +30,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Dockerfile" />
         <option value="Class" />
       </list>
     </option>
@@ -50,7 +64,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/teteu/projects/poo/cc-p2-2023.2&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/teteu/projects/poo/WePayU-P2&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -93,7 +107,13 @@
       <workItem from="1707133685445" duration="26630000" />
       <workItem from="1707174062957" duration="11375000" />
       <workItem from="1707228096111" duration="67000" />
-      <workItem from="1707360764383" duration="321000" />
+      <workItem from="1707360764383" duration="744000" />
+      <workItem from="1707397333655" duration="3493000" />
+      <workItem from="1707410172497" duration="138000" />
+      <workItem from="1707410409595" duration="1511000" />
+      <workItem from="1707411959997" duration="2224000" />
+      <workItem from="1707440894620" duration="1846000" />
+      <workItem from="1707443216331" duration="9744000" />
     </task>
     <task id="LOCAL-00001" summary="create project WePayU">
       <option name="closed" value="true" />

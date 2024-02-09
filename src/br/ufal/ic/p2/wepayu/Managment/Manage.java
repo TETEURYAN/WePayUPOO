@@ -3,16 +3,23 @@ import br.ufal.ic.p2.wepayu.Exceptions.ExceptionErrorMessage;
 import br.ufal.ic.p2.wepayu.Models.Empregado;
 import br.ufal.ic.p2.wepayu.Models.Syndicate;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Manage {
+public class Manage implements Serializable {
+
+    public void Manage(){
+
+    }
     public static HashMap<String, Empregado> employee;
     public static int key = 0;
 
     public static String setEmpregado(Empregado e) {
         key++;
-        employee.put(Integer.toString(key),e);
+        String ID = Integer.toString(key);
+        e.setIDEmploy(ID);
+        employee.put(ID,e);
         return Integer.toString(key);
     }
 

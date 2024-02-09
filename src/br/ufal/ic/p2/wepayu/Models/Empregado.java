@@ -3,8 +3,11 @@ package br.ufal.ic.p2.wepayu.Models;
 import br.ufal.ic.p2.wepayu.Models.KindCard.CardService;
 import br.ufal.ic.p2.wepayu.Models.KindPayment.Hands;
 
-public abstract class Empregado {
+import java.io.Serializable;
+
+public abstract class Empregado implements Serializable {
     private String nome;
+    private String IDEmploy;
     private String endereco;
     private Syndicate sindicato;
     private PaymentWay metodoPagamento;
@@ -14,6 +17,10 @@ public abstract class Empregado {
         this.endereco = endereco;
         this.sindicato = null;
         this.metodoPagamento = new Hands();
+    }
+
+    public Empregado() {
+
     }
 
     public void setSindicato(Syndicate sindicalizado) {
@@ -49,6 +56,14 @@ public abstract class Empregado {
     public abstract void setSalario(String salario);
 
     public abstract String getTipo();
+
+    public String getIDEmploy(){
+        return IDEmploy;
+    }
+
+    public void setIDEmploy(String IDEmploy){
+        this.IDEmploy = IDEmploy;
+    }
 
     public PaymentWay getMetodoPagamento() {
         return metodoPagamento;

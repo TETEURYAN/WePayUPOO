@@ -2,11 +2,15 @@ package br.ufal.ic.p2.wepayu.Models.KindCard;
 
 import java.io.Serializable;
 
+/*
+    Classe referente ao Resultado de venda do modelo relacional
+ */
+
 public class CardSale implements Serializable {
     private String data;
     private Double horas;
 
-    public CardSale(){
+    public CardSale(){// Construtor vazio para preencher o XML
 
     }
     public CardSale(String data, Double horas) {

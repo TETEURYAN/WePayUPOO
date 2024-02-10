@@ -1,10 +1,13 @@
 package br.ufal.ic.p2.wepayu.Models.KindPayment;
 
-import br.ufal.ic.p2.wepayu.Models.PaymentWay;
+import br.ufal.ic.p2.wepayu.Models.MetodoPagamento;
 
 import java.io.Serializable;
 
-public class Bank extends PaymentWay implements Serializable {
+/*
+    Classe referente ao meio de pagamento banco
+ */
+public class Bank extends MetodoPagamento implements Serializable {
     private static String banco;
     private static String agencia;
     private static String corrente;
@@ -12,7 +15,7 @@ public class Bank extends PaymentWay implements Serializable {
     public Bank(){
 
     }
-    public Bank(String banco, String agencia, String contaCorrente) {
+    public Bank(String banco, String agencia, String contaCorrente) { //Construtor do banco
         this.banco = banco;
         this.agencia = agencia;
         this.corrente = contaCorrente;

@@ -9,18 +9,23 @@ import br.ufal.ic.p2.wepayu.Utils.Validate;
 import java.io.*;
 import java.util.*;
 
-public class Payroll implements Serializable {
+/*
+    CLasse referente ao Sistema Folha do modelo relacional
+ */
+public class SistemaFolha implements Serializable {
 
     public static String saida;
 
+    // headers dos tipos de empregados
     public static final String HEADER_HORISTAS = "templates/horistas.txt";
     public static final String HEADER_ASSALARIADOS = "templates/assalariados.txt";
     public static final String HEADER_COMISSIONADOS = "templates/comissionados.txt";
-    public Payroll() {
-        Banking.updateEmployByXML();
+
+    public SistemaFolha() { //Contstrutor da folha de pagamento
+        Banking.updateEmployByXML(); // Método para carregar a Hash de empregados a partir do XML
     }
 
-    public static String totalSalario(String data) throws Exception{
+    public static String totalSalario(String data) throws Exception{ // Método para calcular o salário de todos os empregados
         double totalPayment = 0d;
         for(Map.Entry<String, Empregado> emp: Manage.employee.entrySet()){
             Empregado e = emp.getValue();
@@ -51,21 +56,25 @@ public class Payroll implements Serializable {
         return Utils.DoubleString(totalPayment);
     }
 
-    private static void geraDadosHoristas(String data) throws Exception{
-        SortedSet<String> dadosEmpregados = new TreeSet<>();
+    private static void geraDataHoristas(String data) throws Exception{ // Método para pegar os dados dos horistas e escrever na folha
+        SortedSet<String> dataEmploy = new TreeSet<>();//Cria um set para empregados
         List<Double> somaTotal = Arrays.asList(0D, 0D, 0D, 0D, 0D);
 
-        for(Map.Entry<String, Empregado> emp : Manage.employee.entrySet()){
+        for(Map.Entry<String, Empregado> emp : Manage.employee.entrySet()){//For each na hashmap de empregados
             Empregado e = emp.getValue();
             if(e.getTipo().equals("horista"))
             {
+                /*
+                    Condicional que avergigua o atributo corretamente e gera um objeto com as informações em linha
+                    de cada empregado
+
+                 */
                 String dataInicial;
                 if(!Validate.validFriday(data)) break;
                 else dataInicial = Utils.lastFriday(Validate.toData(data));
                 Object[] dados = ((EmpregadoHorista) e).getDataLine(dataInicial, data);
-                dadosEmpregados.add((String) dados[0]);
-                somaTotal = Utils.concatenarListas(somaTotal,
-                        (List<Double>) dados[1]);
+                dataEmploy.add((String) dados[0]);
+                somaTotal = Utils.concatenarListas(somaTotal, (List<Double>) dados[1]);
             }
         }
 
@@ -75,17 +84,14 @@ public class Payroll implements Serializable {
 
             String linha;
             while((linha = reader.readLine()) != null)
-            {
-                writer.write(linha);
-                writer.newLine();
-            }
+            {writer.write(linha);
+                writer.newLine();}
 
             reader.close();
 
-            for(String dado: dadosEmpregados){
+            for(String dado: dataEmploy){
                 writer.write(dado);
-                writer.newLine();
-            }
+                writer.newLine();}
 
             String total = String.format("\n%-36s %5s %5s %13s %9s %15s\n", "TOTAL HORISTAS",
                     Utils.doubleToString(somaTotal.get(0), true),
@@ -104,27 +110,32 @@ public class Payroll implements Serializable {
         }
     };
 
-    private static void geraDadosAssalariados(String data) throws Exception{
-        // Lê arquivo assalariados.txt
-        SortedSet<String> dadosEmpregados = new TreeSet<>();
+    private static void geraDataAssalariados(String data) throws Exception{// Função para gerar os datos de todos os assalariados
+        SortedSet<String> dataEmploy = new TreeSet<>();
         List<Double> somaTotal = Arrays.asList(0D, 0D, 0D);
 
-        for(Map.Entry<String, Empregado> emp : Manage.employee.entrySet()){
+        for(Map.Entry<String, Empregado> emp : Manage.employee.entrySet()){ //FOr each na hashmap de empregados
             Empregado e = emp.getValue();
             if(e.getTipo().equals("assalariado"))
             {
+                /*
+                    Condicional que avergigua o atributo corretamente e gera um objeto com as informações em linha
+                    de cada empregado
+                 */
                 String dataInicial;
                 if(!Utils.lastDayOfMonth(data)) break;
                 else dataInicial = Utils.getPrimeiroDiaMes(data);
 
                 Object[] dados = ((EmpregadoAssalariado) e).getDataLine(dataInicial, data);
-                dadosEmpregados.add((String) dados[0]);
-                somaTotal = Utils.concatenarListas(somaTotal,
-                        (List<Double>) dados[1]);
+                dataEmploy.add((String) dados[0]);
+                somaTotal = Utils.concatenarListas(somaTotal, (List<Double>) dados[1]);
             }
         }
 
         try{
+            /*
+                 parte do método que força a escrita no TXT
+             */
             BufferedReader reader = new BufferedReader(new FileReader(HEADER_ASSALARIADOS));
             BufferedWriter writer = new BufferedWriter(new FileWriter(saida, true));
 
@@ -137,7 +148,7 @@ public class Payroll implements Serializable {
 
             reader.close();
 
-            for(String dado: dadosEmpregados){
+            for(String dado: dataEmploy){
                 writer.write(dado);
                 writer.newLine();
             }
@@ -151,46 +162,48 @@ public class Payroll implements Serializable {
             writer.write(total);
             writer.close();
 
-        }catch (IOException e)
-        {
-            System.out.println("Arquivos nao encontrados");
-        }
+        }catch (IOException e) {System.out.println("Arquivos nao encontrados");}
 
 
     }
 
-    private static void geraDadosComissionados(String data) throws Exception{
-        SortedSet<String> dadosEmpregados = new TreeSet<>();
+    private static void geraDataComissionados(String data) throws Exception{
+        SortedSet<String> dataEmploy = new TreeSet<>();
         List<Double> somaTotal = Arrays.asList(0D,0D,0D,0D,0D,0D);
 
         for(Map.Entry<String, Empregado> emp : Manage.employee.entrySet()){
             Empregado e = emp.getValue();
             if(e.getTipo().equals("comissionado"))
             {
+                /*
+                    Condicional que avergigua o atributo corretamente e gera um objeto com as informações em linha
+                    de cada empregado
+                 */
                 String dataInicial;
                 if(!Validate.validPayComissionado(data)) break;
                 else dataInicial = Validate.lastDayComissionado(data);
                 Object[] dados = ((EmpregadoComissionado) e).getDataLine(dataInicial, data);
-                dadosEmpregados.add((String) dados[0]);
+                dataEmploy.add((String) dados[0]);
                 somaTotal = Utils.concatenarListas(somaTotal,
                         (List<Double>) dados[1]);
             }
         }
 
         try{
+                /*
+                    parte do método que força a escrita no TXT
+                 */
             BufferedReader reader = new BufferedReader(new FileReader(HEADER_COMISSIONADOS));
             BufferedWriter writer = new BufferedWriter(new FileWriter(saida, true));
 
             String linha;
             while((linha = reader.readLine()) != null)
-            {
-                writer.write(linha);
-                writer.newLine();
-            }
+            {writer.write(linha);
+                writer.newLine();}
 
             reader.close();
 
-            for(String dado: dadosEmpregados){
+            for(String dado: dataEmploy){
                 writer.write(dado);
                 writer.newLine();
             }
@@ -208,10 +221,7 @@ public class Payroll implements Serializable {
             writer.write("\nTOTAL FOLHA: " + totalSalario(data));
             writer.close();
 
-        }catch (IOException e)
-        {
-            System.out.println("Arquivos nao encontrados");
-        }
+        }catch (IOException e) {System.out.println("Arquivos nao encontrados");}
 
     }
 
@@ -227,21 +237,16 @@ public class Payroll implements Serializable {
             writer.newLine();
 
             writer.close();
-        }catch (IOException e)
-        {
-            System.out.println("Arquivo nao encontrado");
-        }
-
-        geraDadosHoristas(data);
-        geraDadosAssalariados(data);
-        geraDadosComissionados(data);
-
+        }catch (IOException e) {System.out.println("Arquivo nao encontrado");}
+        geraDataHoristas(data);
+        geraDataAssalariados(data);
+        geraDataComissionados(data);
     }
 
     private static void setSaida(String saida) {
     }
 
     public static String totalFolha(String data) throws Exception {
-        return "beleza";
+        return "";
     }
 }

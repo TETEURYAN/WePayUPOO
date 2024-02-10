@@ -1,10 +1,14 @@
 package br.ufal.ic.p2.wepayu.Models.KindPayment;
 
-import br.ufal.ic.p2.wepayu.Models.PaymentWay;
+import br.ufal.ic.p2.wepayu.Models.MetodoPagamento;
 
 import java.io.Serializable;
 
-public class Hands extends PaymentWay implements Serializable {
+/*
+    Classe referente ao meio de pagamento EmMaos no modelo relacional
+ */
+
+public class Hands extends MetodoPagamento implements Serializable {
 
     private String way = "emMaos";
     public Hands(){

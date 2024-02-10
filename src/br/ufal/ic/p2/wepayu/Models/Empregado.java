@@ -6,12 +6,16 @@ import br.ufal.ic.p2.wepayu.Models.KindPayment.Hands;
 
 import java.io.Serializable;
 
+/*
+    Classe referente ao Empregado
+
+ */
 public abstract class Empregado implements Serializable {
     private String nome;
     private String IDEmploy;
     private String endereco;
-    private Syndicate sindicato;
-    private PaymentWay metodoPagamento;
+    private MembroSindicato sindicato;
+    private MetodoPagamento metodoPagamento;
 
     public Empregado(String nome, String endereco) {
         this.nome = nome;
@@ -24,11 +28,11 @@ public abstract class Empregado implements Serializable {
 
     }
 
-    public void setSindicato(Syndicate sindicalizado) {
+    public void setSindicato(MembroSindicato sindicalizado) {
         this.sindicato = sindicalizado;
     }
 
-    public Syndicate getSindicato() {
+    public MembroSindicato getSindicato() {
         return this.sindicato;
     }
 
@@ -52,12 +56,12 @@ public abstract class Empregado implements Serializable {
         return IDEmploy;
     }
 
-    public PaymentWay getMetodoPagamento() {
+    public MetodoPagamento getMetodoPagamento() {
         return metodoPagamento;
     }
 
-    public String getDataPayment(){
-        PaymentWay ans = getMetodoPagamento();
+    public String getDataPayment(){ //Método para gerar os dados de pagamento para serem escritos no TXT
+        MetodoPagamento ans = getMetodoPagamento();
         return switch (getMetodoPagamento().getMetodoPagamento()){
             case "emMaos" -> "Em maos";
             case "banco" -> String.format("%s, Ag. %s CC %s", Bank.getBanco(),
@@ -81,7 +85,7 @@ public abstract class Empregado implements Serializable {
         this.IDEmploy = IDEmploy;
     }
 
-    public void setMetodoPagamento(PaymentWay metodoPagamento) {
+    public void setMetodoPagamento(MetodoPagamento metodoPagamento) {
         this.metodoPagamento = metodoPagamento;
     }
 }

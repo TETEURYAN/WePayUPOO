@@ -18,6 +18,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/*
+Biblioteca destinada para métodos uteis
+ */
 public class Utils {
 
     public Utils(){
@@ -33,10 +36,7 @@ public class Utils {
         }
     }
 
-    public static String convertDoubleToString(double value) {
-        if (value != (int) value) return Double.toString(value).replace('.', ',');
-        else return Integer.toString((int) value);
-    }
+    //Seção de conversão entre double e string
     public static String convertDoubleToString(double value, int decimalPlaces) {
         return String.format(("%." + decimalPlaces +"f"), value).replace(".", ",");
     }
@@ -49,6 +49,12 @@ public class Utils {
         return Double.parseDouble(value.replace(',', '.'));
     }
 
+    public static String doubleToString(Double valor, boolean dynamic){;
+        DecimalFormat formatter = new DecimalFormat(dynamic ? "#.##" : "0.00");
+        return formatter.format(valor);
+    }
+
+    // Método para concatenar lista para GerarFolha
     public static List<Double> concatenarListas(List<Double> listaOne, List<Double> listaTwo) throws Exception{
         if(listaOne.isEmpty()) return listaTwo;
         if(listaTwo.isEmpty()) return listaOne;
@@ -59,11 +65,7 @@ public class Utils {
         return soma;
     }
 
-    public static String doubleToString(Double valor, boolean dynamic){;
-        DecimalFormat formatter = new DecimalFormat(dynamic ? "#.##" : "0.00");
-        return formatter.format(valor);
-    }
-
+    // Métodos de data
     public static int getIntervaloDias(String dataInicial, String dataFinal){
         LocalDate Inicial = LocalDate.parse(dataInicial, Validate.formato);
         LocalDate Final = LocalDate.parse(dataFinal, Validate.formato);
@@ -95,6 +97,7 @@ public class Utils {
                 format(Validate.formato);
     }
 
+    // Métodos para manipulação em XML
     public static void saveXML(HashMap<String, Empregado> empregados, String arquivo){
         try (XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(arquivo)))) {
             for (Map.Entry<String, Empregado> entrada : empregados.entrySet()) {

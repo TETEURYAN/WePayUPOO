@@ -13,57 +13,29 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/*
+    Classe criada para gerenciar e manipular o armazenamento de dados no arquivo XML
+
+ */
+
 public class Banking {
 
-    static String enderecoListaEmpregados = "./listaEmpregados.xml";
-    public Banking(){
+    static String enderecoListaEmpregados = "./listaEmpregados.xml"; //Endereço e nome do XML
+    public Banking(){// Construtor vazio para escrita no XML
 
     }
-    private static HashMap<String, Empregado> empregados = (HashMap<String, Empregado>) Utils.carregarEmpregadosDeXML("./listaEmpregados.xml");
-    public static List<Empregado> GiveEmployXML(String arquivo) {
-        List<Empregado> empregados = new ArrayList<>();
-        try (XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(arquivo)))) {
-            Object obj;
-            while (true) {
-                try {
-                    obj = decoder.readObject();
-                    if (obj instanceof Empregado) {
-                        empregados.add((Empregado) obj);
-                    }
-                } catch (Exception ignored) {
-                    break; // Não há mais objetos para ler
-                }
-            }
-        } catch (Exception ignored) {
-        }
-        return empregados;
-    }
+    private static HashMap<String, Empregado> empregados = (HashMap<String, Empregado>) Utils.carregarEmpregadosDeXML("./listaEmpregados.xml");// Carregando a hashmap a partir do XML
 
-    public static void setEmpregado(String key, Empregado empregado){
-        empregados.put(key, empregado);
-        Utils.saveXML(empregados, "./listaEmpregados.xml");
-    }
-
-    public static void addEmpregado(String ID, Empregado empregado) {
-        empregados.put(ID, empregado);
-        Utils.saveXML(empregados, "./listaEmpregados.xml");
-    }
-
-    public static String getEnderecoListaEmpregados(){
+    public static String getEnderecoListaEmpregados(){// Retorna o endereço do arquivo XML
         return enderecoListaEmpregados;
     }
 
 
-    public static void updateEmployByXML(){
+    public static void updateEmployByXML(){// Atualiza o vetor de Empregados de Management a partir do arquivo XML
         Manage.employee = Utils.carregarEmpregadosDeXML(enderecoListaEmpregados);
     }
-    public static void removeEmploy(Empregado empregado) {
-        String key = empregado.getIDEmploy();
-        empregados.remove(key);
-        Utils.saveXML(empregados, enderecoListaEmpregados);
-    }
 
-    public static void zerarSystem(){
+    public static void zerarSystem(){// Método para zerar o sistema
         empregados.clear();
         Manage.employee = new HashMap<>();
         Manage.key = 0;

@@ -7,7 +7,7 @@ public class CardService implements Serializable {
     private String data;
     private double valor;
 
-    public CardService(){
+    public CardService(){// Construtor vazio para preencher no XML
 
     }
     public CardService(String data, double valor) {

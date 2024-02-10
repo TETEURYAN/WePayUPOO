@@ -3,7 +3,7 @@ package br.ufal.ic.p2.wepayu.Models.KindEmployee;
 import br.ufal.ic.p2.wepayu.Exceptions.ExceptionErrorMessage;
 import br.ufal.ic.p2.wepayu.Models.KindCard.CardSale;
 import br.ufal.ic.p2.wepayu.Models.Empregado;
-import br.ufal.ic.p2.wepayu.Models.Syndicate;
+import br.ufal.ic.p2.wepayu.Models.MembroSindicato;
 import br.ufal.ic.p2.wepayu.Utils.Utils;
 import br.ufal.ic.p2.wepayu.Utils.Validate;
 
@@ -13,6 +13,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+
+/*
+    Classe referente ao Empregado Comissionado no Modelo Relacional
+ */
 
 public class EmpregadoComissionado extends Empregado implements Serializable {
 
@@ -36,7 +40,7 @@ public class EmpregadoComissionado extends Empregado implements Serializable {
 
     }
 
-    public EmpregadoComissionado(String nome, String endereco, String salarioMensal, String taxaDeComissao) {
+    public EmpregadoComissionado(String nome, String endereco, String salarioMensal, String taxaDeComissao) { //Construtor do Empregado Comissionado
         super(nome, endereco);
         this.taxaComissao = taxaDeComissao;
         this.salarioMensal = salarioMensal;
@@ -59,7 +63,7 @@ public class EmpregadoComissionado extends Empregado implements Serializable {
         this.taxaComissao = taxaDeComissao;
     }
 
-    public void addVenda(String dataString, String valor) throws Exception {
+    public void addVenda(String dataString, String valor) throws Exception { // Método para adicionar venda ao cartão de vendas
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("d/M/yyyy");
         double value = Utils.quitValue(valor);
         Validate.validValue(value);
@@ -72,25 +76,25 @@ public class EmpregadoComissionado extends Empregado implements Serializable {
         }
     }
 
-    public String getVendasRealizadas(String dataInicial, String dataFinal) throws Exception {
+    public String getVendasRealizadas(String dataInicial, String dataFinal) throws Exception { // Método para calcular as horas realizadas
 
         double sales = 0;
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("d/M/yyyy");
         LocalDate dateInit = null;
         LocalDate dateEnd = null;
 
-        try {
+        try {//Tentativa de validar hora inicial
             dateInit = LocalDate.parse(Validate.valiDate(dataInicial), formato);
         } catch (Exception e) {throw new Exception("Data inicial invalida.");}
 
-        try{
+        try{//Tentativa de calidar hora final
             dateEnd = LocalDate.parse(Validate.valiDate(dataFinal), formato);
         } catch (Exception e) {throw new Exception("Data final invalida.");}
 
         if (dateInit.isAfter(dateEnd)) throw new ExceptionErrorMessage("Data inicial nao pode ser posterior aa data final.");
         if (dateInit.isEqual(dateEnd)) return "0,00";
 
-        for (CardSale c : this.vendas) {
+        for (CardSale c : this.vendas) { //For each em cada cartão de vendas
             LocalDate data = LocalDate.parse(Validate.valiDate(c.getData()), formato);
             if (data.isEqual(dateInit) ||
                     (data.isAfter(dateInit) && data.isBefore(dateEnd))) {
@@ -121,20 +125,19 @@ public class EmpregadoComissionado extends Empregado implements Serializable {
         return Math.floor((Utils.quitValue(getSalario())*12D/52D)*2D * 100)/100F;
     }
 
-    public Double getDescontos(String dataInicial, String dataFinal) throws Exception{
+    public Double getDescontos(String dataInicial, String dataFinal) throws Exception{ //método para calcular descontos
         Double total = 0d;
 
         int dias = Utils.getIntervaloDias(dataInicial, dataFinal) + 1;
 
         if (getSindicato() != null) {
-            Syndicate membro = getSindicato();
-            total = membro.getTaxasServico(dataInicial, dataFinal) +
-                    dias*membro.getAdicionalSindicato();
+            MembroSindicato membro = getSindicato();
+            total = membro.getTaxasServico(dataInicial, dataFinal) + dias*membro.getAdicionalSindicato();
         }
 
         return total;
     }
-    public Double getComissoes(String dataInicial, String dataFinal) throws Exception{
+    public Double getComissoes(String dataInicial, String dataFinal) throws Exception{ //Métodos para calcular as comissões
         double allVendas = Utils.quitValue(getVendasRealizadas(dataInicial, dataFinal));
         double comissoes = Utils.quitValue(getTaxa());
         Double percentual = allVendas * comissoes;
@@ -145,7 +148,7 @@ public class EmpregadoComissionado extends Empregado implements Serializable {
         return  getSalarioFixado() + getComissoes(dataInicial, dataFinal);
     }
 
-    public Object[] getDataLine(String dataInicial, String data) throws Exception{
+    public Object[] getDataLine(String dataInicial, String data) throws Exception{// Método para calcular a linha de dados de cada EmpregadoComissionado
 
         List<Double> valores = new ArrayList<>();
 

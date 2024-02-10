@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public abstract class PaymentWay implements Serializable {
 
+
     public PaymentWay(){
 
     }

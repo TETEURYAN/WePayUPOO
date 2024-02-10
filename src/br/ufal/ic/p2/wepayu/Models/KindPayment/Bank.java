@@ -5,9 +5,9 @@ import br.ufal.ic.p2.wepayu.Models.PaymentWay;
 import java.io.Serializable;
 
 public class Bank extends PaymentWay implements Serializable {
-    private String banco;
-    private String agencia;
-    private String corrente;
+    private static String banco;
+    private static String agencia;
+    private static String corrente;
 
     public Bank(){
 
@@ -18,15 +18,15 @@ public class Bank extends PaymentWay implements Serializable {
         this.corrente = contaCorrente;
     }
 
-    public String getBanco() {
+    public static String getBanco() {
         return banco;
     }
 
-    public String getAgencia() {
+    public static String getAgencia() {
         return agencia;
     }
 
-    public String getCorrente() {
+    public static String getCorrente() {
         return corrente;
     }
 

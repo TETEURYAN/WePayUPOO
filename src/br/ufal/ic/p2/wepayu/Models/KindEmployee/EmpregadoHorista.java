@@ -3,6 +3,8 @@ package br.ufal.ic.p2.wepayu.Models.KindEmployee;
 import br.ufal.ic.p2.wepayu.Exceptions.ExceptionErrorMessage;
 import br.ufal.ic.p2.wepayu.Models.KindCard.CardPoint;
 import br.ufal.ic.p2.wepayu.Models.Empregado;
+import br.ufal.ic.p2.wepayu.Models.KindCard.CardService;
+import br.ufal.ic.p2.wepayu.Models.Syndicate;
 import br.ufal.ic.p2.wepayu.Utils.Utils;
 import br.ufal.ic.p2.wepayu.Utils.Validate;
 
@@ -11,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class EmpregadoHorista extends Empregado implements Serializable {
 
@@ -110,6 +113,58 @@ public class EmpregadoHorista extends Empregado implements Serializable {
         return Integer.toString((int) horaExtra);
     }
 
+    public Double getDescontos(String dataInicial, String dataFinal) throws Exception{
+        Double total = 0d;
+
+        int dias = Utils.getIntervaloDias(dataInicial, dataFinal);
+
+        if (getSindicato() != null) {
+            Syndicate membro = getSindicato();
+            total = membro.getTaxasServico(dataInicial, dataFinal) +
+                    dias*membro.getAdicionalSindicato();
+        }
+
+        return total;
+    }
+
+    public Object[] getDataLine(String dataInicial, String data) throws Exception{
+
+        List<Double> valores = new ArrayList<>();
+
+        // Adiciona os dados numéricos a lista de valores
+        valores.add(Utils.quitValue(getHorasNormaisTrabalhadas(dataInicial, data)));
+        valores.add(Utils.quitValue(getHorasExtrasTrabalhadas(dataInicial, data)));
+        valores.add(getBruto(dataInicial, data));
+
+        // Confere se há salario suficiente para retirar os descontos
+        Double desconto = getDescontos(dataInicial,data);
+        if(valores.get(2) < desconto) {
+            valores.add(0D);
+            String dataCobranca = Utils.nextFriday(data);
+            setTaxaExtra(dataCobranca, desconto);
+        }
+        else {
+            desconto += (getSindicato() == null) ? getSindicato().getClearExtra() : 0D;
+            valores.add(desconto);
+        }
+
+        // Adiciona dado de salário liquido
+        valores.add(valores.get(2) - valores.get(3));
+
+        // Cria strings dos dados numéricos para inserção na folha de pagamento
+        String normais = Utils.doubleToString(valores.get(0), true);
+        String extras = Utils.doubleToString(valores.get(1), true);
+        String bruto = Utils.doubleToString(valores.get(2), false);
+        String descontos = Utils.doubleToString(valores.get(3), false);
+        String liquido = Utils.doubleToString(valores.get(4), false);
+
+        // Cria String da linha correspondente aos dados na folha de pagamento
+        String linha = String.format("%-36s %5s %5s %13s %9s %15s %s", getNome(),
+                normais, extras, bruto, descontos, liquido, getDataPayment());
+
+        return new Object[]{linha, valores};
+    }
+
 
     public Double getBruto (String dataInicial, String dataFinal) throws Exception{
         Double horasNormais = Double.parseDouble(getHorasNormaisTrabalhadas(dataInicial, dataFinal));
@@ -140,5 +195,13 @@ public class EmpregadoHorista extends Empregado implements Serializable {
 
     public void setCartao(ArrayList<CardPoint> cartao){
         this.cartao = cartao;
+    }
+
+    private void setTaxaExtra(String data, Double valor){
+        if(getSindicato() != null){
+            CardService extra = new CardService(data,
+                    valor);
+            getSindicato().addCardService(extra);
+        }
     }
 }

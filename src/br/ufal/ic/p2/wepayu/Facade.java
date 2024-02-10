@@ -299,4 +299,8 @@ public class Facade {
     public String totalFolha(String data) throws Exception{
         return Payroll.totalSalario(data);
     }
+
+    public void rodaFolha(String data, String saida) throws Exception{
+        
+    }
 }

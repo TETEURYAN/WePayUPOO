@@ -1,16 +1,18 @@
 package br.ufal.ic.p2.wepayu.Utils;
 
-import br.ufal.ic.p2.wepayu.Managment.Manage;
 import br.ufal.ic.p2.wepayu.Models.Empregado;
-import br.ufal.ic.p2.wepayu.Models.KindEmployee.EmpregadoHorista;
 
 import java.io.*;
+import java.text.DecimalFormat;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,10 +49,52 @@ public class Utils {
         return Double.parseDouble(value.replace(',', '.'));
     }
 
+    public static List<Double> concatenarListas(List<Double> listaOne, List<Double> listaTwo) throws Exception{
+        if(listaOne.isEmpty()) return listaTwo;
+        if(listaTwo.isEmpty()) return listaOne;
+        if(listaOne.size() != listaTwo.size()) return null;
+
+        List<Double> soma = new ArrayList<>();
+        for(int i = 0; i < listaOne.size(); i++) soma.add(listaOne.get(i) + listaTwo.get(i));
+        return soma;
+    }
+
+    public static String doubleToString(Double valor, boolean dynamic){;
+        DecimalFormat formatter = new DecimalFormat(dynamic ? "#.##" : "0.00");
+        return formatter.format(valor);
+    }
+
+    public static int getIntervaloDias(String dataInicial, String dataFinal){
+        LocalDate Inicial = LocalDate.parse(dataInicial, Validate.formato);
+        LocalDate Final = LocalDate.parse(dataFinal, Validate.formato);
+
+        return (int) ChronoUnit.DAYS.between(Inicial, Final);
+    }
     public static String lastFriday(LocalDate date){
         String inData = date.minusDays(7).format(Validate.formato);
         return inData;
     }
+
+    public static String nextFriday(String data) {
+        LocalDate dataParse = LocalDate.parse(data, Validate.formato);
+        LocalDate Inicial = dataParse.with(TemporalAdjusters.next(DayOfWeek.FRIDAY));
+        return Inicial.format(Validate.formato);
+    }
+
+    public static boolean lastDayOfMonth(String data){
+        LocalDate dataParse = LocalDate.parse(data, Validate.formato);
+        LocalDate ultimo = dataParse.with(TemporalAdjusters.lastDayOfMonth());
+
+        return ultimo.equals(dataParse);
+    }
+
+    public static String getPrimeiroDiaMes(String data){
+        LocalDate dataParse = LocalDate.parse(data, Validate.formato);
+
+        return dataParse.with(TemporalAdjusters.firstDayOfMonth()).
+                format(Validate.formato);
+    }
+
     public static void saveXML(HashMap<String, Empregado> empregados, String arquivo){
         try (XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(arquivo)))) {
             for (Map.Entry<String, Empregado> entrada : empregados.entrySet()) {

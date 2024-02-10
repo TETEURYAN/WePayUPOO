@@ -83,4 +83,13 @@ public class Syndicate implements Serializable {
         this.adicionalSindicato = adicionalSindicato;
     }
 
+    public Double getClearExtra() {
+        Double TotalValue = 0d;
+        for(CardService taxa: services){
+            TotalValue += taxa.getValor();
+        }
+        services.clear();
+        return TotalValue;
+    }
+
 }

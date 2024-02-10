@@ -3,6 +3,7 @@ package br.ufal.ic.p2.wepayu.Models.KindEmployee;
 import br.ufal.ic.p2.wepayu.Exceptions.ExceptionErrorMessage;
 import br.ufal.ic.p2.wepayu.Models.KindCard.CardSale;
 import br.ufal.ic.p2.wepayu.Models.Empregado;
+import br.ufal.ic.p2.wepayu.Models.Syndicate;
 import br.ufal.ic.p2.wepayu.Utils.Utils;
 import br.ufal.ic.p2.wepayu.Utils.Validate;
 
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class EmpregadoComissionado extends Empregado implements Serializable {
 
@@ -43,6 +45,10 @@ public class EmpregadoComissionado extends Empregado implements Serializable {
 
     public String getSalarioMensal() {
         return salarioMensal;
+    }
+
+    public Double getSalarioFixo(){
+        return Math.floor((Utils.quitValue(getSalario())*12D/52D)*2D * 100)/100F;
     }
 
     public String getTaxa() {
@@ -115,6 +121,19 @@ public class EmpregadoComissionado extends Empregado implements Serializable {
         return Math.floor((Utils.quitValue(getSalario())*12D/52D)*2D * 100)/100F;
     }
 
+    public Double getDescontos(String dataInicial, String dataFinal) throws Exception{
+        Double total = 0d;
+
+        int dias = Utils.getIntervaloDias(dataInicial, dataFinal) + 1;
+
+        if (getSindicato() != null) {
+            Syndicate membro = getSindicato();
+            total = membro.getTaxasServico(dataInicial, dataFinal) +
+                    dias*membro.getAdicionalSindicato();
+        }
+
+        return total;
+    }
     public Double getComissoes(String dataInicial, String dataFinal) throws Exception{
         double allVendas = Utils.quitValue(getVendasRealizadas(dataInicial, dataFinal));
         double comissoes = Utils.quitValue(getTaxa());
@@ -124,6 +143,34 @@ public class EmpregadoComissionado extends Empregado implements Serializable {
 
     public double getBruto(String dataInicial, String dataFinal) throws Exception{
         return  getSalarioFixado() + getComissoes(dataInicial, dataFinal);
+    }
+
+    public Object[] getDataLine(String dataInicial, String data) throws Exception{
+
+        List<Double> valores = new ArrayList<>();
+
+        // Inicializa o vetor com as informações
+        valores.add(getSalarioFixo());
+        valores.add(Utils.quitValue(getVendasRealizadas(dataInicial, data)));
+        valores.add(getComissoes(dataInicial, data));
+        valores.add(getBruto(dataInicial, data));
+        valores.add(getBruto(dataInicial, data));
+        valores.add(getDescontos(dataInicial, data));
+        valores.add(valores.get(3) - valores.get(4));
+
+        // Cria strings dos dados numéricos para inserção na folha de pagamento
+        String fixo = Utils.doubleToString(valores.get(0), false);
+        String vendas = Utils.doubleToString(valores.get(1), false);
+        String comissoes = Utils.doubleToString(valores.get(2), false);
+        String bruto = Utils.doubleToString(valores.get(3), false);
+        String descontos = Utils.doubleToString(valores.get(4), false);
+        String liquido = Utils.doubleToString(valores.get(5), false);
+
+        // Cria String da linha correspondente aos dados na folha de pagamento
+        String linha = String.format("%-21s %8s %8s %8s %13s %9s %15s %s", getNome(),
+                fixo, vendas, comissoes, bruto, descontos, liquido, getDataPayment());
+
+        return new Object[]{linha, valores};
     }
 
     public ArrayList<CardSale> getVendas(){

@@ -24,7 +24,6 @@ public class EmpregadoHorista extends Empregado implements Serializable {
     public EmpregadoHorista(String nome, String endereco, String salarioPorHora) {
         super(nome, endereco);
         this.salarioPorHora = salarioPorHora;
-        this.cartao = new ArrayList<CardPoint>();
     }
 
     public String getSalarioPorHora() {
@@ -32,6 +31,9 @@ public class EmpregadoHorista extends Empregado implements Serializable {
     }
 
     public void addRegistro(String dataString, String horas) throws ExceptionErrorMessage {
+        if(this.cartao == null){
+            this.cartao = new ArrayList<CardPoint>();
+        }
 
         if (Double.parseDouble(horas.replace(",", ".")) <= 0) {
             throw new ExceptionErrorMessage("Horas devem ser positivas.");
@@ -41,7 +43,7 @@ public class EmpregadoHorista extends Empregado implements Serializable {
             DateTimeFormatter formato = DateTimeFormatter.ofPattern("d/M/yyyy");
             LocalDate dataFormato = LocalDate.parse(dataString, formato);
 
-            this.cartao.add(new CardPoint(dataFormato, Double.parseDouble(horas.replace(",", "."))));
+            this.cartao.add(new CardPoint(dataString, Double.parseDouble(horas.replace(",", "."))));
         } catch (DateTimeParseException e) {
             throw new ExceptionErrorMessage("Data invalida.");
         }
@@ -49,6 +51,10 @@ public class EmpregadoHorista extends Empregado implements Serializable {
     }
 
     public String getHorasNormaisTrabalhadas(String dataInicial, String dataFinal) throws Exception {
+
+        if(this.cartao == null){
+            this.cartao = new ArrayList<CardPoint>();
+        }
 
         double horaExtra = 0;
         LocalDate dateInit;
@@ -66,8 +72,9 @@ public class EmpregadoHorista extends Empregado implements Serializable {
         if (dateInit.isEqual(dateEnd)) return "0";
 
         for (CardPoint c : cartao) {
-            if (c.getData().isEqual(dateInit) ||
-                    (c.getData().isAfter(dateInit) && c.getData().isBefore(dateEnd))) {
+            LocalDate data = LocalDate.parse(Validate.valiDate(c.getData()), formato);
+            if (data.isEqual(dateInit) ||
+                    (data.isAfter(dateInit) && data.isBefore(dateEnd))) {
 
                 if (c.getHoras() > 8) {
                     horaExtra += 8.0;
@@ -81,7 +88,7 @@ public class EmpregadoHorista extends Empregado implements Serializable {
         return Integer.toString((int) horaExtra);
     }
 
-    public String getHorasExtrasTrabalhadas(String dataIncial, String dataFinal) {
+    public String getHorasExtrasTrabalhadas(String dataIncial, String dataFinal) throws Exception {
         double horaExtra = 0;
 
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("d/M/yyyy");
@@ -90,9 +97,9 @@ public class EmpregadoHorista extends Empregado implements Serializable {
         LocalDate dateEnd = LocalDate.parse(dataFinal, formato);
 
         for (CardPoint c : cartao) {
-            if (c.getData().isEqual(dateInit) ||
-                    (c.getData().isAfter(dateInit) && c.getData().isBefore(dateEnd))) {
-
+            LocalDate data = LocalDate.parse(Validate.valiDate(c.getData()), formato);
+            if (data.isEqual(dateInit) ||
+                    (data.isAfter(dateInit) && data.isBefore(dateEnd))) {
                 if (c.getHoras() > 8) {
                     horaExtra += (c.getHoras() - 8.0);
                 }
@@ -101,6 +108,14 @@ public class EmpregadoHorista extends Empregado implements Serializable {
 
         if (horaExtra != (int) horaExtra) return Double.toString(horaExtra).replace(".", ",");
         return Integer.toString((int) horaExtra);
+    }
+
+
+    public Double getBruto (String dataInicial, String dataFinal) throws Exception{
+        Double horasNormais = Double.parseDouble(getHorasNormaisTrabalhadas(dataInicial, dataFinal));
+        Double horasExtras = Double.parseDouble(getHorasExtrasTrabalhadas(dataInicial, dataFinal));
+
+        return horasNormais*Double.parseDouble(getSalario()) + horasExtras*1.5*Double.parseDouble(getSalario());
     }
 
     @Override
@@ -116,5 +131,14 @@ public class EmpregadoHorista extends Empregado implements Serializable {
     @Override
     public String getTipo() {
         return "horista";
+    }
+
+
+    public ArrayList<CardPoint> getCartao(){
+        return this.cartao;
+    }
+
+    public void setCartao(ArrayList<CardPoint> cartao){
+        this.cartao = cartao;
     }
 }

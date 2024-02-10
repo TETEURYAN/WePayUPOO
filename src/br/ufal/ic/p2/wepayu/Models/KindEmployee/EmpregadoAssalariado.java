@@ -35,4 +35,5 @@ public class EmpregadoAssalariado extends Empregado implements Serializable {
     public String getTipo() {
         return "assalariado";
     }
+
 }

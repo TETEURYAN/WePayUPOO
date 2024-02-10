@@ -1,4 +1,5 @@
 package br.ufal.ic.p2.wepayu.Managment;
+import br.ufal.ic.p2.wepayu.Banking.Banking;
 import br.ufal.ic.p2.wepayu.Exceptions.ExceptionErrorMessage;
 import br.ufal.ic.p2.wepayu.Models.Empregado;
 import br.ufal.ic.p2.wepayu.Models.Syndicate;

@@ -18,6 +18,18 @@ public class EmpregadoComissionado extends Empregado implements Serializable {
     private String salarioMensal;
     private ArrayList<CardSale> vendas;
 
+    public String getTaxaComissao() {
+        return taxaComissao;
+    }
+
+    public void setTaxaComissao(String taxaComissao) {
+        this.taxaComissao = taxaComissao;
+    }
+
+    public void setSalarioMensal(String salarioMensal) {
+        this.salarioMensal = salarioMensal;
+    }
+
     public EmpregadoComissionado(){
 
     }
@@ -48,33 +60,34 @@ public class EmpregadoComissionado extends Empregado implements Serializable {
 
         try {
             LocalDate dataFormato = LocalDate.parse(dataString, formato);
-            this.vendas.add(new CardSale(dataFormato, value));
+            this.vendas.add(new CardSale(dataString, value));
         } catch (DateTimeParseException e) {
             throw new ExceptionErrorMessage("Data invalida.");
         }
     }
 
-    public String getVendas(String dataInicial, String dataFinal) throws Exception {
+    public String getVendasRealizadas(String dataInicial, String dataFinal) throws Exception {
 
         double sales = 0;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("d/M/yyyy");
         LocalDate dateInit = null;
         LocalDate dateEnd = null;
 
         try {
-            dateInit = LocalDate.parse(Validate.valiDate(dataInicial), formatter);
+            dateInit = LocalDate.parse(Validate.valiDate(dataInicial), formato);
         } catch (Exception e) {throw new Exception("Data inicial invalida.");}
 
         try{
-            dateEnd = LocalDate.parse(Validate.valiDate(dataFinal), formatter);
+            dateEnd = LocalDate.parse(Validate.valiDate(dataFinal), formato);
         } catch (Exception e) {throw new Exception("Data final invalida.");}
 
         if (dateInit.isAfter(dateEnd)) throw new ExceptionErrorMessage("Data inicial nao pode ser posterior aa data final.");
         if (dateInit.isEqual(dateEnd)) return "0,00";
 
         for (CardSale c : this.vendas) {
-            if (c.getData().isEqual(dateInit) ||
-                    (c.getData().isAfter(dateInit) && c.getData().isBefore(dateEnd))) {
+            LocalDate data = LocalDate.parse(Validate.valiDate(c.getData()), formato);
+            if (data.isEqual(dateInit) ||
+                    (data.isAfter(dateInit) && data.isBefore(dateEnd))) {
                 sales += c.getHoras();
             }
         }
@@ -96,5 +109,28 @@ public class EmpregadoComissionado extends Empregado implements Serializable {
     @Override
     public String getTipo() {
         return "comissionado";
+    }
+
+    public Double getSalarioFixado(){
+        return Math.floor((Utils.quitValue(getSalario())*12D/52D)*2D * 100)/100F;
+    }
+
+    public Double getComissoes(String dataInicial, String dataFinal) throws Exception{
+        double allVendas = Utils.quitValue(getVendasRealizadas(dataInicial, dataFinal));
+        double comissoes = Utils.quitValue(getTaxa());
+        Double percentual = allVendas * comissoes;
+        return Math.floor(percentual*100)/100F;
+    }
+
+    public double getBruto(String dataInicial, String dataFinal) throws Exception{
+        return  getSalarioFixado() + getComissoes(dataInicial, dataFinal);
+    }
+
+    public ArrayList<CardSale> getVendas(){
+        return vendas;
+    }
+
+    public void setVendas(ArrayList<CardSale> vendas) {
+        this.vendas = vendas;
     }
 }

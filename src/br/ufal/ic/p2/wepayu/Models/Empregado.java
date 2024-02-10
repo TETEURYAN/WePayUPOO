@@ -69,6 +69,7 @@ public abstract class Empregado implements Serializable {
         return metodoPagamento;
     }
 
+
     public void setMetodoPagamento(PaymentWay metodoPagamento) {
         this.metodoPagamento = metodoPagamento;
     }

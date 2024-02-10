@@ -1,21 +1,33 @@
 package br.ufal.ic.p2.wepayu.Models.KindCard;
 
-import java.time.LocalDate;
+import java.io.Serializable;
+import java.lang.String;
 
-public class CardService {
-    private LocalDate data;
+public class CardService implements Serializable {
+    private String data;
     private double valor;
 
-    public CardService(LocalDate data, double valor) {
+    public CardService(){
+
+    }
+    public CardService(String data, double valor) {
         this.data = data;
         this.valor = valor;
     }
 
-    public LocalDate getData() {
+    public String getData() {
         return this.data;
     }
 
     public double getValor() {
         return this.valor;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
     }
 }

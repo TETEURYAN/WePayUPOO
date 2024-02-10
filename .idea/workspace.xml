@@ -5,22 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="12eac4aa-10e5-456c-b3b7-037b45f1ab0e" name="Changes" comment="create project WePayU">
-      <change afterPath="$PROJECT_DIR$/.attach_pid3899" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/listaEmpregados.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Banking/Banking.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Utils/Utils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/Payroll.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.attach_pid3899" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/listaEmpregados.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Banking/Banking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Banking/Banking.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Facade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Facade.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Managment/Manage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Managment/Manage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/Empregado.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/Empregado.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindCard/CardPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindCard/CardPoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindCard/CardSale.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindCard/CardSale.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindCard/CardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindCard/CardService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindEmployee/EmpregadoAssalariado.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindEmployee/EmpregadoAssalariado.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindEmployee/EmpregadoComissionado.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindEmployee/EmpregadoComissionado.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindEmployee/EmpregadoHorista.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindEmployee/EmpregadoHorista.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindPayment/Bank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindPayment/Bank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindPayment/Fedex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindPayment/Fedex.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindPayment/Hands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindPayment/Hands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/PaymentWay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/PaymentWay.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/Syndicate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/Syndicate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/utils/Utils.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/utils/Validate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Utils/Validate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Utils/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Utils/Validate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Utils/Validate.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +71,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/teteu/projects/poo/WePayU-P2&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/teteu/projects/poo/WePayUPOO-Old&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -114,6 +121,9 @@
       <workItem from="1707411959997" duration="2224000" />
       <workItem from="1707440894620" duration="1846000" />
       <workItem from="1707443216331" duration="9744000" />
+      <workItem from="1707479323357" duration="22305000" />
+      <workItem from="1707502932703" duration="2058000" />
+      <workItem from="1707505140103" duration="17165000" />
     </task>
     <task id="LOCAL-00001" summary="create project WePayU">
       <option name="closed" value="true" />

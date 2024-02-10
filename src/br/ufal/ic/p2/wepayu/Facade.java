@@ -18,20 +18,17 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-
 public class Facade {
+    public Facade(){
+        Banking.updateEmployByXML();
+    }
     public void zerarSistema() {
+        Manage.employee = new HashMap<String, Empregado>();
         Banking.zerarSystem();
     }
 
-    public String totalFolha(String data){
-        return "0,00";
-    }
-
     public void encerrarSistema(){
-
+        Utils.saveXML(Manage.employee, Banking.getEnderecoListaEmpregados());
     }
 
     public void lancaVenda(String id, String data, String horas) throws Exception {
@@ -74,25 +71,16 @@ public class Facade {
         Validate.valiDate(data);
 
         LocalDate date = LocalDate.parse(data, formato);
-        Manage.getEmpregado(id).addTaxaServico(new CardService(date, value));
+        Manage.getEmpregado(id).addTaxaServico(new CardService(data, value));
 
     }
 
     public String criarEmpregado(String nome, String endereco, String tipo, String salario) throws ExceptionErrorMessage {
 
         Validate.validEmployInfo(nome, endereco, tipo, salario);
-        if (tipo.equals("assalariado")){
-            EmpregadoAssalariado e = new EmpregadoAssalariado(nome, endereco, salario);
-            String ans = Manage.setEmpregado(e);
-            Banking.addEmpregado(ans, e);
-            return ans;
-        }
-        else if (tipo.equals("horista")){
-            EmpregadoHorista e = new EmpregadoHorista(nome, endereco, salario);
-            String ans = Manage.setEmpregado(e);
-            Banking.addEmpregado(ans, e);
-            return ans;
-        }
+        if (tipo.equals("assalariado")) return Manage.setEmpregado(new EmpregadoAssalariado(nome, endereco, salario));
+        else if (tipo.equals("horista")) return Manage.setEmpregado(new EmpregadoHorista(nome, endereco, salario));
+
         return "0";
     }
 
@@ -127,21 +115,17 @@ public class Facade {
         if (comissao.contains("-"))
             throw new ExceptionErrorMessage("Comissao deve ser nao-negativa.");
 
-        EmpregadoComissionado e = new EmpregadoComissionado(nome, endereco, salario, comissao);
-        String ans = Manage.setEmpregado(e);
-        Banking.addEmpregado(ans, e);
-
-        return ans;
+        return Manage.setEmpregado(new EmpregadoComissionado(nome, endereco, salario, comissao));
     }
 
 
     public void removerEmpregado(String id) throws Exception {
-        Banking.giveNewEmploy();
         Empregado e = Manage.getEmpregado(id);
 
         Validate.validIDEmploy(id);
         Validate.validEmploy(e);
-        Banking.removeEmploy(e);
+
+        Manage.employee.remove(id);
     }
 
     public void alteraEmpregado(String emp, String atributo, String valor) throws Exception {
@@ -228,7 +212,7 @@ public class Facade {
     }
 
     public String getAtributoEmpregado(String emp, String atributo) throws Exception {
-        Banking.giveNewEmploy();
+//        Banking.updateEmployByXML();
         Empregado e = Manage.getEmpregado(emp);
         Validate.validIDEmploy(emp);
         Validate.validEmploy(e);
@@ -277,22 +261,21 @@ public class Facade {
 
     }
     public String getEmpregadoPorNome(String nome, int indice) throws ExceptionErrorMessage {
-        Banking.giveNewEmploy();
         return Manage.getEmpregadoIDByNome(nome, indice);
     }
 
     public String getHorasNormaisTrabalhadas(String emp, String dataIncial, String dataFinal) throws Exception {
         Empregado e = Manage.getEmpregado(emp);
         if (e instanceof EmpregadoHorista) {
-            return ((EmpregadoHorista) e).getHorasNormaisTrabalhadas(dataIncial, dataFinal);
+            return ((EmpregadoHorista) e).getCartao() == null ? "0" : ((EmpregadoHorista) e).getHorasNormaisTrabalhadas(dataIncial, dataFinal);
         }
         throw new ExceptionErrorMessage("Empregado nao eh horista.");
     }
 
-    public String getHorasExtrasTrabalhadas(String emp, String dataIncial, String dataFinal) throws ExceptionErrorMessage {
+    public String getHorasExtrasTrabalhadas(String emp, String dataIncial, String dataFinal) throws Exception {
         Empregado e = Manage.getEmpregado(emp);
-        if (e instanceof EmpregadoHorista) {
-            return ((EmpregadoHorista) e).getHorasExtrasTrabalhadas(dataIncial, dataFinal);
+        if (e instanceof EmpregadoHorista ) {
+            return ((EmpregadoHorista) e).getCartao() == null ? "0" : ((EmpregadoHorista) e).getHorasExtrasTrabalhadas(dataIncial, dataFinal);
         }
         throw new ExceptionErrorMessage("Empregado nao eh horista.");
     }
@@ -300,7 +283,7 @@ public class Facade {
     public String getVendasRealizadas(String emp, String dataIncial, String dataFinal) throws Exception {
         Empregado e = Manage.getEmpregado(emp);
         if (e instanceof EmpregadoComissionado) {
-            return ((EmpregadoComissionado) e).getVendas(dataIncial, dataFinal);
+            return  ((EmpregadoComissionado) e).getVendasRealizadas(dataIncial, dataFinal);
         }
         throw new ExceptionErrorMessage("Empregado nao eh comissionado.");
     }
@@ -313,4 +296,7 @@ public class Facade {
         return Utils.DoubleString(ans);
     }
 
+    public String totalFolha(String data) throws Exception{
+        return Payroll.totalSalario(data);
+    }
 }

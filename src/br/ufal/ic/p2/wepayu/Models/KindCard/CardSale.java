@@ -1,12 +1,15 @@
 package br.ufal.ic.p2.wepayu.Models.KindCard;
 
-import java.time.LocalDate;
+import java.io.Serializable;
 
-public class CardSale {
-    private LocalDate data;
+public class CardSale implements Serializable {
+    private String data;
     private Double horas;
 
-    public CardSale(LocalDate data, Double horas) {
+    public CardSale(){
+
+    }
+    public CardSale(String data, Double horas) {
         this.data = data;
         this.horas = horas;
     }
@@ -15,7 +18,15 @@ public class CardSale {
         return horas;
     }
 
-    public LocalDate getData() {
+    public String getData() {
         return data;
+    }
+
+    public void setHoras(Double horas) {
+        this.horas = horas;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 }

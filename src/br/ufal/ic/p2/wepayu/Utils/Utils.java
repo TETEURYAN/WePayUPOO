@@ -2,6 +2,7 @@ package br.ufal.ic.p2.wepayu.Utils;
 
 import br.ufal.ic.p2.wepayu.Managment.Manage;
 import br.ufal.ic.p2.wepayu.Models.Empregado;
+import br.ufal.ic.p2.wepayu.Models.KindEmployee.EmpregadoHorista;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -46,6 +47,10 @@ public class Utils {
         return Double.parseDouble(value.replace(',', '.'));
     }
 
+    public static String lastFriday(LocalDate date){
+        String inData = date.minusDays(7).format(Validate.formato);
+        return inData;
+    }
     public static void saveXML(HashMap<String, Empregado> empregados, String arquivo){
         try (XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(arquivo)))) {
             for (Map.Entry<String, Empregado> entrada : empregados.entrySet()) {

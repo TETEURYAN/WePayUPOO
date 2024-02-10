@@ -54,7 +54,8 @@ public class Syndicate implements Serializable {
 
         Double countTaxa = 0d;
         for(CardService taxa: services){
-            LocalDate data = taxa.getData();
+            LocalDate data = LocalDate.parse(Validate.valiDate(taxa.getData()), formato);
+//            LocalDate data = taxa.getData();
             if(data.isEqual(inicialDate)) {
                 countTaxa += taxa.getValor();
             } else{
@@ -69,4 +70,17 @@ public class Syndicate implements Serializable {
     public void addCardService (CardService taxaServico) {
         this.services.add(taxaServico);
     }
+
+    public void setServices(ArrayList<CardService> services) {
+        this.services = services;
+    }
+
+    public void setIdMembro(String idMembro) {
+        this.idMembro = idMembro;
+    }
+
+    public void setAdicionalSindicato(double adicionalSindicato) {
+        this.adicionalSindicato = adicionalSindicato;
+    }
+
 }

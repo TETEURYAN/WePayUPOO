@@ -6,11 +6,17 @@ import br.ufal.ic.p2.wepayu.Models.Empregado;
 import br.ufal.ic.p2.wepayu.Models.KindEmployee.EmpregadoComissionado;
 import br.ufal.ic.p2.wepayu.Models.Syndicate;
 
+import java.time.DayOfWeek;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 import java.time.Year;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 public class Validate {
+    public static DateTimeFormatter formato = DateTimeFormatter.ofPattern("d/M/yyyy");
     public static String valiDate(String data) throws Exception{
         Pattern pattern = Pattern.compile("([0-3]?[0-9])/(0?[1-9]|1[0-2])/(\\d{4})");
         Matcher matcher = pattern.matcher(data);
@@ -30,6 +36,42 @@ public class Validate {
             }
         }
         return data;
+    }
+
+    public static LocalDate toData(String data) throws
+            Exception{
+        LocalDate date;
+        date = LocalDate.parse(data, formato);
+        return date;
+    }
+
+    public static String lastDayComissionado(String data) {
+        LocalDate dataParse = LocalDate.parse(data, formato);
+        LocalDate dataInit = dataParse.minusDays(13);
+        return dataInit.format(formato);
+    }
+    public static boolean validPayComissionado(String data) {
+        LocalDate dataParse = LocalDate.parse(data, formato);
+        DayOfWeek dayWeek = dataParse.getDayOfWeek();
+
+        if (dayWeek != DayOfWeek.FRIDAY) return false;
+
+        LocalDate initGeralDate = LocalDate.of(2005, 1, 1);
+        long diferencaEmDias = ChronoUnit.DAYS.between(initGeralDate, dataParse);
+
+        return (diferencaEmDias + 1) % 14 == 0;
+    }
+
+    public static boolean validLastDay(String data){
+        LocalDate dataParse = LocalDate.parse(data, formato);
+        LocalDate ultimo = dataParse.with(TemporalAdjusters.lastDayOfMonth());
+
+        return ultimo.equals(dataParse);
+    }
+
+    public static boolean validFriday(String data){
+        LocalDate dataParse = LocalDate.parse(data, formato);
+        return dataParse.getDayOfWeek() == DayOfWeek.FRIDAY;
     }
 
     public static void validIDEmploy(String id) throws Exception {

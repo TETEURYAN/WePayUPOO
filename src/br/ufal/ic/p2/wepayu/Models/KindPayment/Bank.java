@@ -34,4 +34,16 @@ public class Bank extends PaymentWay implements Serializable {
     public String getMetodoPagamento() {
         return "banco";
     }
+
+    public void setAgencia(String agencia) {
+        this.agencia = agencia;
+    }
+
+    public void setBanco(String banco) {
+        this.banco = banco;
+    }
+
+    public void setCorrente(String corrente) {
+        this.corrente = corrente;
+    }
 }

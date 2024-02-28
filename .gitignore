@@ -1,3 +1,7 @@
+### FILES .txt e .xml ###
+*.txt
+*.xml
+
 ### IntelliJ IDEA ###
 out/
 !**/src/main/**/out/

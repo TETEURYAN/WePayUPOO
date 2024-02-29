@@ -1,8 +1,10 @@
 package br.ufal.ic.p2.wepayu.services;
 import br.ufal.ic.p2.wepayu.models.*;
+import br.ufal.ic.p2.wepayu.models.FactoryEmployee.FactoryEmployee;
 import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoAssalariado;
 import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoComissionado;
 import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoHorista;
+import br.ufal.ic.p2.wepayu.services.XMLStrategy.XMLEmpregado;
 import br.ufal.ic.p2.wepayu.utils.Utils;
 
 import java.beans.XMLDecoder;
@@ -17,10 +19,14 @@ public class DBmanager {
 
     private static DBmanager session;
     public static HashMap<String, Empregado> empregados;
+
+    private static FactoryEmployee fabrica;
     public static int key;
 
     private DBmanager(){
         this.empregados = readEmpregados();
+        this.fabrica = new FactoryEmployee();
+
     }
 
     public static DBmanager getDatabase() {
@@ -29,6 +35,10 @@ public class DBmanager {
             session = new DBmanager();
         }
         return session;
+    }
+
+    public static FactoryEmployee getFabrica(){
+        return fabrica;
     }
 
     public static String add(Empregado e) {
@@ -157,9 +167,48 @@ public class DBmanager {
                 e.printStackTrace();
             }
         }
-
         return null;
     }
+
+    public static void initSystem () {
+        empregados = new HashMap<>();
+        key = 0;
+    }
+    public static void deleteFilesXML () {
+
+        for (int i = 1; i <= 1000; i++) {
+            File file = new File( i + ".xml" );
+
+            if (file.exists()) {
+                file.delete();
+            } else {
+                return;
+            }
+        }
+    }
+
+    public static void deleteFolhas () {
+        File[] folhas = new File("./").listFiles();
+
+        for (File f : folhas) {
+            if (f.getName().endsWith(".txt")) {
+                // Excluir o arquivo
+                f.delete();
+            }
+        }
+    }
+
+    public void deleteSystem() {
+        initSystem();
+        deleteFilesXML();
+        deleteFolhas();
+    }
+
+    public void finishSystem(){
+        XMLEmpregado xml = new XMLEmpregado();
+        xml.save(DBmanager.empregados);
+    }
+
 }
 
 

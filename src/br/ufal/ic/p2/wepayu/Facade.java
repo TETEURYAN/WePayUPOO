@@ -1,13 +1,11 @@
 package br.ufal.ic.p2.wepayu;
 
 import br.ufal.ic.p2.wepayu.dao.Manager;
-import br.ufal.ic.p2.wepayu.managment.ParcialManagment;
 import br.ufal.ic.p2.wepayu.services.DBmanager;
 import br.ufal.ic.p2.wepayu.services.SistemaFolha;
 
 public class Facade {
 
-    private ParcialManagment controleV1;
     private Manager controle;
 
     private DBmanager data;
@@ -16,17 +14,16 @@ public class Facade {
 
     public Facade() {
 
-        this.controleV1 = new ParcialManagment();
         this.data = DBmanager.getDatabase();
         this.controle = new Manager(data);
     }
 
     public void zerarSistema() {
-        this.controleV1.zerarSistema();
+        this.data.deleteSystem();
     }
 
     public void encerrarSistema() {
-        this.controleV1.encerrarSistema();
+        this.data.finishSystem();
     }
 
     public String criarEmpregado(String nome, String endereco, String tipo, String salario) throws Exception {
@@ -94,11 +91,11 @@ public class Facade {
     }
 
     public String totalFolha(String data) throws Exception {
-        return this.controleV1.totalFolha(data);
+        return controle.getFolhaDao().totalFolha(data);
     }
 
     public void rodaFolha(String data, String saida) throws Exception {
-        this.controleV1.rodaFolha(data, saida);
+        controle.getFolhaDao().rodaFolha(data, saida);
     }
 
 }

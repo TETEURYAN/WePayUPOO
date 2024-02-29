@@ -11,6 +11,8 @@ public class Manager {
     private TaxaDao taxaDao;
     private VendaDao vendaDao;
 
+    private FolhaDao folhaDao;
+
     public Manager(DBmanager session){
         this.session = session;
     }
@@ -43,4 +45,10 @@ public class Manager {
         return taxaDao;
     }
 
+    public FolhaDao getFolhaDao(){
+        if(folhaDao == null){
+            folhaDao = new FolhaDao(session);
+        }
+        return folhaDao;
+    }
 }

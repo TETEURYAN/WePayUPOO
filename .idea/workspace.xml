@@ -5,82 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="12eac4aa-10e5-456c-b3b7-037b45f1ab0e" name="Changes" comment="create project WePayU">
-      <change afterPath="$PROJECT_DIR$/folha-2005-01-07.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/folha-2005-01-14.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/folha-2005-01-21.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/folha-2005-01-28.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/folha-2005-01-31.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/folha-2005-02-04.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/folha-2005-02-11.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/folha-2005-02-18.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/folha-2005-02-25.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/folha-2005-02-28.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/dao/KindDao/CartaoDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/dao/KindDao/EmpregadoDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/dao/KindDao/TaxaDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/dao/KindDao/VendaDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/dao/Manager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/exceptions/DataException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/exceptions/Employ/AtributoException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/exceptions/Employ/EmpregadoException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/exceptions/ExceptionConversao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/exceptions/ExceptionEmpregado.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/exceptions/ExceptionErrorMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/exceptions/ExceptionMetodosDePagamento.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/exceptions/PaymentWay/BankException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/managment/ParcialManagment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/Empregado.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/FactoryEmployee/FactoryEmployee.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/KindCard/CardPoint.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/KindCard/CardSale.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/KindCard/CardService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/KindEmployee/Decorator/Horas.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/KindEmployee/Decorator/KindEmploye/DecoratorComissionado.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/KindEmployee/Decorator/KindEmploye/DecoratorEmpregado.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/KindEmployee/Decorator/KindEmploye/DecoratorHorista.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/KindEmployee/Decorator/Service.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/KindEmployee/Decorator/Venda.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/KindEmployee/EmpregadoAssalariado.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/KindEmployee/EmpregadoComissionado.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/KindEmployee/EmpregadoHorista.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/KindPayment/Banco.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/KindPayment/Correios.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/KindPayment/EmMaos.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/MetodoPagamento.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/models/Sindicato.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/services/DBmanager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/services/SistemaFolha.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/services/XMLStrategy/XMLAssalariado.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/services/XMLStrategy/XMLComissionado.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/services/XMLStrategy/XMLEmpregado.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/services/XMLStrategy/XMLHorista.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/utils/Utils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/utils/Validate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/dao/KindDao/FolhaDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Banking/Banking.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Exceptions/DataException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Exceptions/Employ/AtributoException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Exceptions/Employ/EmpregadoException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Exceptions/ExceptionErrorMessage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Exceptions/PaymentWay/BankException.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Facade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Facade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Managment/Manage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/Empregado.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindCard/CardPoint.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindCard/CardSale.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindCard/CardService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindEmployee/EmpregadoAssalariado.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindEmployee/EmpregadoComissionado.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindEmployee/EmpregadoHorista.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindPayment/Bank.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindPayment/Fedex.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/KindPayment/Hands.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/MembroSindicato.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/MetodoPagamento.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Models/SistemaFolha.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Utils/Utils.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/Utils/Validate.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/dao/KindDao/EmpregadoDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/dao/KindDao/EmpregadoDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/dao/Manager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/dao/Manager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/managment/ParcialManagment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/services/DBmanager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/services/DBmanager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/services/SistemaFolha.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/ufal/ic/p2/wepayu/services/SistemaFolha.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -184,7 +116,9 @@
       <workItem from="1708870708468" duration="640000" />
       <workItem from="1708871554661" duration="21000" />
       <workItem from="1709093210770" duration="60000" />
-      <workItem from="1709093309882" duration="72000" />
+      <workItem from="1709093309882" duration="591000" />
+      <workItem from="1709121585825" duration="1390000" />
+      <workItem from="1709165562385" duration="4181000" />
     </task>
     <task id="LOCAL-00001" summary="create project WePayU">
       <option name="closed" value="true" />

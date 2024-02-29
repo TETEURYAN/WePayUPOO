@@ -2,7 +2,6 @@ package br.ufal.ic.p2.wepayu.services;
 
 import br.ufal.ic.p2.wepayu.models.Empregado;
 import br.ufal.ic.p2.wepayu.models.Sindicato;
-import br.ufal.ic.p2.wepayu.managment.ParcialManagment;
 import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoAssalariado;
 import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoComissionado;
 import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoHorista;
@@ -15,28 +14,33 @@ import java.util.*;
 import java.io.FileWriter;
 
 public class SistemaFolha {
-    private LocalDate dataCriacao;
+
     private String arquivoSaida;
 
-    public SistemaFolha(LocalDate dataCriacao, String arquivoSaida) {
-        this.dataCriacao = dataCriacao;
-        this.arquivoSaida = arquivoSaida;
+    private static SistemaFolha folha;
+    private DBmanager session;
+
+    private SistemaFolha() {
+        this.session = DBmanager.getDatabase();
     }
 
-    public SistemaFolha(LocalDate dataCriacao) {
-        this.dataCriacao = dataCriacao;
+    public static SistemaFolha getFolha(){
+        if(folha == null){
+            folha = new SistemaFolha();
+        }
+        return folha;
     }
 
     public void setArquivoSaida(String arquivoSaida) {
         this.arquivoSaida = arquivoSaida;
     }
 
-    public void geraFolha() throws Exception {
+    public void geraFolha(LocalDate dataCriacao, String arquivoSaida) throws Exception {
         if (this.arquivoSaida.isEmpty()) throw new Exception("Arquivo de saída não especificado");
 
         double total = 0;
 
-        try (FileWriter escritor = new FileWriter(this.arquivoSaida)) {
+        try (FileWriter escritor = new FileWriter(arquivoSaida)) {
             // Cabeçalho
             escritor.write("FOLHA DE PAGAMENTO DO DIA " + dataCriacao.toString() + '\n');
             escritor.write("====================================");
@@ -44,11 +48,11 @@ public class SistemaFolha {
             escritor.write("\n");
 
             // Dados dos empregados
-            total += calculaHoristas(escritor);
+            total += calculaHoristas(escritor, dataCriacao);
             escritor.write("\n");
 
             try {
-                total += calculaAssalariados(escritor);
+                total += calculaAssalariados(escritor, dataCriacao);
                 escritor.write("\n");
             } catch (Exception error) {
                 System.out.println(error.getMessage());
@@ -56,7 +60,7 @@ public class SistemaFolha {
 
 
 
-            total += calculaComissionados(escritor);
+            total += calculaComissionados(escritor, dataCriacao);
             escritor.write("\n");
 
 
@@ -68,7 +72,7 @@ public class SistemaFolha {
 
     }
 
-    public double calculaAssalariados(FileWriter escritor) throws Exception {
+    public double calculaAssalariados(FileWriter escritor, LocalDate dataCriacao) throws Exception {
         if (this.arquivoSaida.isEmpty()) throw new Exception("Arquivo de saída não especificado");
 
         double totalSalarioBruto = 0;
@@ -139,7 +143,7 @@ public class SistemaFolha {
 
     }
 
-    public double calculaHoristas(FileWriter escritor) throws Exception {
+    public double calculaHoristas(FileWriter escritor, LocalDate dataCriacao) throws Exception {
         double totalHorasNormais = 0;
         double totalHorasExtras = 0;
         double totalSalarioBruto = 0;
@@ -220,7 +224,7 @@ public class SistemaFolha {
 
     }
 
-    public double calculaComissionados(FileWriter escritor) throws Exception {
+    public double calculaComissionados(FileWriter escritor, LocalDate dataCriacao) throws Exception {
         if (this.arquivoSaida.isEmpty()) throw new Exception("Arquivo de saída não especificado");
 
         double totalSalarioFixo = 0;
@@ -337,19 +341,19 @@ public class SistemaFolha {
         return totalSalarioBruto;
     }
 
-    public double totalFolha() throws Exception {
+    public double totalFolha(LocalDate dataCriacao) throws Exception {
 
-        ParcialManagment.FolhaDePagamentoController.incrementCountDay();
+//        ParcialManagment.FolhaDePagamentoController.incrementCountDay();
 
         double total = 0;
 
-        HashMap<String, Empregado> empregados = DBmanager.empregados;
+        HashMap<String, Empregado> empregados = session.empregados;
 
         for (Map.Entry<String, Empregado> entry : empregados.entrySet()) {
             Empregado e = entry.getValue();
 
             // Horista e é sexta-feira
-            if (e instanceof EmpregadoHorista && dataCriacao.getDayOfWeek() == DayOfWeek.FRIDAY) {
+            if (e.getTipo().equals("horista") && dataCriacao.getDayOfWeek() == DayOfWeek.FRIDAY) {
                 LocalDate dataInicial = dataCriacao.minusDays(6);
 
                 double salarioBruto = ((EmpregadoHorista) e).getSalarioBruto(dataInicial, dataCriacao);
@@ -358,7 +362,7 @@ public class SistemaFolha {
 
 
             // Comissionado, sexta-feira e multiplo d
-            } else if (e instanceof  EmpregadoComissionado )
+            } else if (e.getTipo().equals("comissionado")  )
                      {
 
                 boolean multiplo =  (ChronoUnit.DAYS.between(LocalDate.of(2005, 1, 1), dataCriacao) + 1) % 14 == 0;
@@ -373,7 +377,7 @@ public class SistemaFolha {
 
 
                 total += salarioBruto ;
-            } else if (e instanceof EmpregadoAssalariado &&
+            } else if (e.getTipo().equals("assalariado") &&
                     dataCriacao.getDayOfMonth() == dataCriacao.lengthOfMonth()) {
 
                 double salarioBruto =  e.getSalario();

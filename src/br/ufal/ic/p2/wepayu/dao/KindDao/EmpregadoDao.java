@@ -1,6 +1,6 @@
 package br.ufal.ic.p2.wepayu.dao.KindDao;
 
-import br.ufal.ic.p2.wepayu.managment.ParcialManagment;
+//import br.ufal.ic.p2.wepayu.managment.ParcialManagment;
 import br.ufal.ic.p2.wepayu.exceptions.ExceptionEmpregado;
 import br.ufal.ic.p2.wepayu.models.Empregado;
 import br.ufal.ic.p2.wepayu.models.FactoryEmployee.FactoryEmployee;
@@ -20,10 +20,11 @@ import java.util.Map;
 public class EmpregadoDao {
 
     private final DBmanager session;
-    private FactoryEmployee fabrica = ParcialManagment.getFabrica();
+    private FactoryEmployee fabrica ;
 
     public EmpregadoDao(DBmanager session) {
         this.session = session;
+        this.fabrica = session.getFabrica();
     }
 
     public String create(String nome, String endereco, String tipo, String salario) throws Exception {

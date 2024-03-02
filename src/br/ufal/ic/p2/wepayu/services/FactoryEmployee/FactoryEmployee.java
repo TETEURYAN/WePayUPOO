@@ -1,10 +1,9 @@
-package br.ufal.ic.p2.wepayu.models.FactoryEmployee;
+package br.ufal.ic.p2.wepayu.services.FactoryEmployee;
 
 import br.ufal.ic.p2.wepayu.models.Empregado;
 import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoAssalariado;
 import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoComissionado;
 import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoHorista;
-import br.ufal.ic.p2.wepayu.utils.Utils;
 
 public class FactoryEmployee {
     public Empregado makeEmployee(String nome, String endereco, String tipo, double salario) throws Exception {

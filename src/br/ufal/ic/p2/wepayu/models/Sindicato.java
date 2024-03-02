@@ -7,7 +7,7 @@ import br.ufal.ic.p2.wepayu.utils.Utils;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Sindicato {
+public class Sindicato implements Cloneable {
     private String idMembro;
     private double taxaSindical;
     private ArrayList<CardService> taxaServicos;
@@ -78,5 +78,23 @@ public class Sindicato {
 
     public ArrayList<CardService> getTaxaServicos() {
         return taxaServicos;
+    }
+
+    @Override
+    public Sindicato clone() {
+        try {
+            Sindicato clone = (Sindicato) super.clone();
+
+            clone.taxaServicos = new ArrayList<>();
+
+            for(CardService taxa: taxaServicos){
+                clone.taxaServicos.add(taxa.clone());
+            }
+
+
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

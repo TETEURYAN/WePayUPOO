@@ -1,10 +1,9 @@
-package br.ufal.ic.p2.wepayu.services;
+package br.ufal.ic.p2.wepayu.models;
 
-import br.ufal.ic.p2.wepayu.models.Empregado;
-import br.ufal.ic.p2.wepayu.models.Sindicato;
 import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoAssalariado;
 import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoComissionado;
 import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoHorista;
+import br.ufal.ic.p2.wepayu.services.DBmanager;
 import br.ufal.ic.p2.wepayu.utils.Utils;
 
 import java.time.DayOfWeek;
@@ -16,7 +15,6 @@ import java.io.FileWriter;
 public class SistemaFolha {
 
     private String arquivoSaida;
-
     private static SistemaFolha folha;
     private DBmanager session;
 
@@ -343,8 +341,6 @@ public class SistemaFolha {
 
     public double totalFolha(LocalDate dataCriacao) throws Exception {
 
-//        ParcialManagment.FolhaDePagamentoController.incrementCountDay();
-
         double total = 0;
 
         HashMap<String, Empregado> empregados = session.empregados;
@@ -360,8 +356,6 @@ public class SistemaFolha {
                 salarioBruto = ((int)(salarioBruto*100))/100f;
                 total +=  salarioBruto;
 
-
-            // Comissionado, sexta-feira e multiplo d
             } else if (e.getTipo().equals("comissionado")  )
                      {
 

@@ -1,9 +1,15 @@
 package br.ufal.ic.p2.wepayu.services;
 import br.ufal.ic.p2.wepayu.models.*;
-import br.ufal.ic.p2.wepayu.models.FactoryEmployee.FactoryEmployee;
+import br.ufal.ic.p2.wepayu.services.FactoryEmployee.FactoryEmployee;
+import br.ufal.ic.p2.wepayu.models.KindCard.CardPoint;
+import br.ufal.ic.p2.wepayu.models.KindCard.CardSale;
+import br.ufal.ic.p2.wepayu.models.KindCard.CardService;
 import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoAssalariado;
 import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoComissionado;
 import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoHorista;
+import br.ufal.ic.p2.wepayu.models.KindPayment.Banco;
+import br.ufal.ic.p2.wepayu.models.KindPayment.Correios;
+import br.ufal.ic.p2.wepayu.models.KindPayment.EmMaos;
 import br.ufal.ic.p2.wepayu.services.XMLStrategy.XMLEmpregado;
 import br.ufal.ic.p2.wepayu.utils.Utils;
 
@@ -12,6 +18,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +26,6 @@ public class DBmanager {
 
     private static DBmanager session;
     public static HashMap<String, Empregado> empregados;
-
     private static FactoryEmployee fabrica;
     public static int key;
 
@@ -35,6 +41,14 @@ public class DBmanager {
             session = new DBmanager();
         }
         return session;
+    }
+
+    public HashMap<String, Empregado> getEmpregados() {
+        return empregados;
+    }
+
+    public void setEmpregados(HashMap<String, Empregado> empregados) {
+        DBmanager.empregados = empregados;
     }
 
     public static FactoryEmployee getFabrica(){
@@ -207,6 +221,159 @@ public class DBmanager {
     public void finishSystem(){
         XMLEmpregado xml = new XMLEmpregado();
         xml.save(DBmanager.empregados);
+    }
+
+    public String getSize(){
+        int tam = empregados.size();
+        return Integer.toString(tam);
+    }
+
+    private Sindicato copySindicato(Sindicato origin) {
+
+        Sindicato copy = null;
+
+        if (origin != null) {
+            copy = new Sindicato();
+            copy.setIdMembro(origin.getIdMembro());
+            copy.setTaxaSindical(origin.getTaxaSindical());
+
+            ArrayList<CardService> copyArrayCardService = new ArrayList<>();
+
+            ArrayList<CardService> originArrayCardService = origin.getTaxaServicos();
+
+            for (CardService t : originArrayCardService) {
+                CardService copyCardService = new CardService();
+
+                copyCardService.setData(t.getData());
+                copyCardService.setValor(t.getValor());
+
+                copyArrayCardService.add(copyCardService);
+            }
+
+            copy.setTaxaServicos(copyArrayCardService);
+        }
+
+        return copy;
+    }
+
+    private MetodoPagamento copyMetodoPagamento(MetodoPagamento origin) {
+
+        if (origin.getMetodoPagamento().equals("emMaos"))
+            return new EmMaos();
+
+        if (origin.getMetodoPagamento().equals("correios"))
+            return new Correios();
+
+        if (origin.getMetodoPagamento().equals("banco")) {
+            Banco copy = new Banco();
+
+            copy.setBanco(((Banco) origin).getBanco());
+            copy.setAgencia(((Banco) origin).getAgencia());
+            copy.setContaCorrente(((Banco) origin).getContaCorrente());
+
+            return copy;
+        }
+
+        return null;
+    }
+
+    private ArrayList<CardSale> copyArrayCardSale (ArrayList<CardSale> origin) {
+        ArrayList<CardSale> copy = new ArrayList<>();
+
+        for (CardSale c : origin) {
+            CardSale copyCardSale = new CardSale();
+
+            copyCardSale.setData(c.getData());
+            copyCardSale.setHoras(c.getHoras());
+
+            copy.add(copyCardSale);
+        }
+
+        return  copy;
+    }
+
+    private ArrayList<CardPoint> copyArrayCardPoint (ArrayList<CardPoint> origin) {
+        ArrayList<CardPoint> copy = new ArrayList<>();
+
+        for (CardPoint c : origin) {
+            CardPoint copyCardPoint = new CardPoint();
+
+            copyCardPoint.setData(c.getData());
+            copyCardPoint.setHoras(c.getHoras());
+
+            copy.add(copyCardPoint);
+        }
+
+        return  copy;
+    }
+
+    private Empregado setAtributosEmpregado(Empregado copy, Empregado origin) {
+        copy.setNome(origin.getNome());
+        copy.setEndereco(origin.getEndereco());
+        copy.setSalario(origin.getSalario());
+
+        Sindicato mCopy = copySindicato(origin.getSindicalizado());
+
+        copy.setSindicalizado(mCopy);
+
+        MetodoPagamento pCopy = copyMetodoPagamento(origin.getMetodoPagamento());
+
+        copy.setMetodoPagamento(pCopy);
+
+        return copy;
+    }
+
+    public HashMap<String, Empregado> copyhash() {
+
+        if (empregados == null)
+            return null;
+
+        HashMap<String, Empregado> hash = new HashMap<String, Empregado>();
+
+        for (Map.Entry<String, Empregado> entry : empregados.entrySet()) {
+            String id = entry.getKey();
+
+            if (entry.getValue().getTipo().equals("comissionado")) {
+                EmpregadoComissionado origin = (EmpregadoComissionado) entry.getValue();
+                EmpregadoComissionado copy = new EmpregadoComissionado();
+
+                copy = (EmpregadoComissionado) setAtributosEmpregado(copy, origin);
+
+                //Comissionado
+                copy.setTaxaDeComissao(origin.getTaxaDeComissao());
+
+                ArrayList<CardSale> cCopy = copyArrayCardSale(origin.getVendas());
+                copy.setVendas(cCopy);
+
+                hash.put(id, copy);
+            }
+
+            if (entry.getValue().getTipo().equals("assalariado")) {
+                EmpregadoAssalariado origin = (EmpregadoAssalariado) entry.getValue();
+                EmpregadoAssalariado copy = new EmpregadoAssalariado();
+
+                copy = (EmpregadoAssalariado) setAtributosEmpregado(copy, origin);
+
+                hash.put(id, copy);
+            }
+
+            if (entry.getValue().getTipo().equals("horista")) {
+                EmpregadoHorista origin = (EmpregadoHorista) entry.getValue();
+                EmpregadoHorista copy = new EmpregadoHorista();
+
+                copy = (EmpregadoHorista) setAtributosEmpregado(copy, origin);
+
+                //Horista
+
+                ArrayList<CardPoint> cCopy = copyArrayCardPoint(origin.getCartao());
+                copy.setCartao(cCopy);
+
+                hash.put(id, copy);
+            }
+
+        }
+
+        return hash;
     }
 
 }

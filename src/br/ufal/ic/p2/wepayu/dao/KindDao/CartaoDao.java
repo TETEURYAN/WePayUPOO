@@ -3,6 +3,7 @@ package br.ufal.ic.p2.wepayu.dao.KindDao;
 import br.ufal.ic.p2.wepayu.models.Empregado;
 import br.ufal.ic.p2.wepayu.models.KindEmployee.Decorator.Horas;
 import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoHorista;
+import br.ufal.ic.p2.wepayu.services.Memento;
 import br.ufal.ic.p2.wepayu.services.DBmanager;
 import br.ufal.ic.p2.wepayu.utils.Utils;
 
@@ -11,8 +12,11 @@ import java.time.LocalDate;
 public class CartaoDao {
 
     private final DBmanager session;
-    public CartaoDao(DBmanager session) {
+    private Memento backup;
+    public CartaoDao(DBmanager session, Memento backup) {
+
         this.session = session;
+        this.backup = backup;
     }
     public void addCard(String emp, String data, String horas) throws Exception {
         Empregado e = Utils.validEmpregado(emp);
@@ -28,6 +32,7 @@ public class CartaoDao {
                 return;
 
 //            ((EmpregadoHorista) e).addRegistro(data, horasFormato);
+            backup.pushUndo();
             EmpregadoHorista Empregado = (EmpregadoHorista) e;
             Horas novasHoras = new Horas(data, horasFormato, Empregado);
         }

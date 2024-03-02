@@ -3,6 +3,7 @@ package br.ufal.ic.p2.wepayu.dao.KindDao;
 import br.ufal.ic.p2.wepayu.models.Empregado;
 import br.ufal.ic.p2.wepayu.models.KindEmployee.Decorator.Venda;
 import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoComissionado;
+import br.ufal.ic.p2.wepayu.services.Memento;
 import br.ufal.ic.p2.wepayu.services.DBmanager;
 import br.ufal.ic.p2.wepayu.utils.Utils;
 
@@ -11,8 +12,11 @@ import java.time.LocalDate;
 public class VendaDao {
 
     private final DBmanager session;
-    public VendaDao(DBmanager session) {
+    private Memento backup;
+    public VendaDao(DBmanager session, Memento backup) {
+
         this.session = session;
+        this.backup = backup;
     }
 
     public void addVenda(String emp, String data, String valor) throws Exception {
@@ -24,6 +28,7 @@ public class VendaDao {
 
             if (valorFormato <= 0 || dataFormato == null) return;
 
+            backup.pushUndo();
             EmpregadoComissionado empregado = (EmpregadoComissionado) e;
             Venda venda = new Venda(data, valorFormato, empregado);
         }

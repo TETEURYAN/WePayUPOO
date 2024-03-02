@@ -3,7 +3,7 @@ package br.ufal.ic.p2.wepayu.dao.KindDao;
 //import br.ufal.ic.p2.wepayu.managment.ParcialManagment;
 import br.ufal.ic.p2.wepayu.exceptions.ExceptionEmpregado;
 import br.ufal.ic.p2.wepayu.models.Empregado;
-import br.ufal.ic.p2.wepayu.models.FactoryEmployee.FactoryEmployee;
+import br.ufal.ic.p2.wepayu.services.FactoryEmployee.FactoryEmployee;
 import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoAssalariado;
 import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoComissionado;
 import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoHorista;
@@ -12,6 +12,7 @@ import br.ufal.ic.p2.wepayu.models.KindPayment.Correios;
 import br.ufal.ic.p2.wepayu.models.KindPayment.EmMaos;
 import br.ufal.ic.p2.wepayu.models.MetodoPagamento;
 import br.ufal.ic.p2.wepayu.models.Sindicato;
+import br.ufal.ic.p2.wepayu.services.Memento;
 import br.ufal.ic.p2.wepayu.services.DBmanager;
 import br.ufal.ic.p2.wepayu.utils.Utils;
 
@@ -21,10 +22,12 @@ public class EmpregadoDao {
 
     private final DBmanager session;
     private FactoryEmployee fabrica ;
+    private Memento backup;
 
-    public EmpregadoDao(DBmanager session) {
+    public EmpregadoDao(DBmanager session, Memento backup) {
         this.session = session;
         this.fabrica = session.getFabrica();
+        this.backup = backup;
     }
 
     public String create(String nome, String endereco, String tipo, String salario) throws Exception {

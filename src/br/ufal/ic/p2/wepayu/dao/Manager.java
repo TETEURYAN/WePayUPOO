@@ -1,6 +1,7 @@
 package br.ufal.ic.p2.wepayu.dao;
 
 import br.ufal.ic.p2.wepayu.dao.KindDao.*;
+import br.ufal.ic.p2.wepayu.services.Memento;
 import br.ufal.ic.p2.wepayu.services.DBmanager;
 
 public class Manager {
@@ -10,44 +11,46 @@ public class Manager {
     private CartaoDao cartaoDao;
     private TaxaDao taxaDao;
     private VendaDao vendaDao;
-
     private FolhaDao folhaDao;
+    private Memento backup;
 
-    public Manager(DBmanager session){
+    public Manager(DBmanager session, Memento backup){
+
         this.session = session;
+        this.backup = backup;
     }
 
     public EmpregadoDao getEmpregadoDao() {
         if(empregadoDao == null){
-            empregadoDao = new EmpregadoDao(session);
+            empregadoDao = new EmpregadoDao(session, backup);
         }
         return empregadoDao;
     }
 
     public CartaoDao getCartaoDao() {
         if(cartaoDao == null){
-            cartaoDao = new CartaoDao(session);
+            cartaoDao = new CartaoDao(session, backup);
         }
         return cartaoDao;
     }
 
     public VendaDao getVendaDao() {
         if(vendaDao == null){
-            vendaDao = new VendaDao(session);
+            vendaDao = new VendaDao(session, backup);
         }
         return vendaDao;
     }
 
     public TaxaDao getTaxaDao() {
         if(taxaDao == null){
-            taxaDao = new TaxaDao(session);
+            taxaDao = new TaxaDao(session, backup);
         }
         return taxaDao;
     }
 
     public FolhaDao getFolhaDao(){
         if(folhaDao == null){
-            folhaDao = new FolhaDao(session);
+            folhaDao = new FolhaDao(session, backup);
         }
         return folhaDao;
     }

@@ -3,6 +3,7 @@ package br.ufal.ic.p2.wepayu.dao.KindDao;
 import br.ufal.ic.p2.wepayu.models.Empregado;
 import br.ufal.ic.p2.wepayu.models.KindEmployee.Decorator.Service;
 import br.ufal.ic.p2.wepayu.models.Sindicato;
+import br.ufal.ic.p2.wepayu.services.Memento;
 import br.ufal.ic.p2.wepayu.services.DBmanager;
 import br.ufal.ic.p2.wepayu.utils.Utils;
 
@@ -11,8 +12,11 @@ import java.time.LocalDate;
 public class TaxaDao {
 
     private final DBmanager session;
-    public TaxaDao(DBmanager session) {
+    private Memento backup;
+    public TaxaDao(DBmanager session, Memento backup) {
+
         this.session = session;
+        this.backup = backup;
     }
 
     public void addService(String membro, String data, String valor) throws Exception {
@@ -30,6 +34,7 @@ public class TaxaDao {
 
 //        EmpregadoController.getEmpregado(id).addTaxaServico(new TaxaServico(data, valorFormato));
         Empregado e = DBmanager.getEmpregado(id);
+        backup.pushUndo();
         Service NovoServico = new Service(data, valorFormato, e) {
             @Override
             public double getSalario() {

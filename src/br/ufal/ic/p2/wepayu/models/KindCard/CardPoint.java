@@ -1,6 +1,6 @@
 package br.ufal.ic.p2.wepayu.models.KindCard;
 
-public class CardPoint {
+public class CardPoint implements Cloneable{
 
     private String data;
     private Double horas;
@@ -28,5 +28,14 @@ public class CardPoint {
 
     public void setHoras(Double horas) {
         this.horas = horas;
+    }
+
+    @Override
+    public CardPoint clone() {
+        try {
+            return (CardPoint) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

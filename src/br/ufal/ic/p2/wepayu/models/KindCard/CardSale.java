@@ -2,7 +2,7 @@ package br.ufal.ic.p2.wepayu.models.KindCard;
 
 import java.lang.String;
 
-public class CardSale {
+public class CardSale implements Cloneable{
     private String data;
     private Double horas;
 
@@ -14,6 +14,8 @@ public class CardSale {
         this.data = data;
         this.horas = horas;
     }
+
+
 
     public Double getHoras() {
         return horas;
@@ -29,5 +31,14 @@ public class CardSale {
 
     public void setHoras(Double horas) {
         this.horas = horas;
+    }
+
+    @Override
+    public CardSale clone() {
+        try {
+            return (CardSale) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

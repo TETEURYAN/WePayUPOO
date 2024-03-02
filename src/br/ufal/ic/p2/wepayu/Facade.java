@@ -1,8 +1,9 @@
 package br.ufal.ic.p2.wepayu;
 
 import br.ufal.ic.p2.wepayu.dao.Manager;
+import br.ufal.ic.p2.wepayu.services.Memento;
 import br.ufal.ic.p2.wepayu.services.DBmanager;
-import br.ufal.ic.p2.wepayu.services.SistemaFolha;
+import br.ufal.ic.p2.wepayu.models.SistemaFolha;
 
 public class Facade {
 
@@ -10,27 +11,36 @@ public class Facade {
 
     private DBmanager data;
 
+    private Memento backup;
+
     private SistemaFolha folha;
 
     public Facade() {
 
         this.data = DBmanager.getDatabase();
-        this.controle = new Manager(data);
+        this.backup = Memento.getCommand(data);
+        this.controle = new Manager(data, backup);
+        backup.setsystemOnn();
     }
 
-    public void zerarSistema() {
+    public void zerarSistema() throws Exception {
+        backup.pushUndo();
         this.data.deleteSystem();
     }
 
     public void encerrarSistema() {
+
         this.data.finishSystem();
+        backup.setsystemOff();
     }
 
     public String criarEmpregado(String nome, String endereco, String tipo, String salario) throws Exception {
+        backup.pushUndo();
         return controle.getEmpregadoDao().create(nome, endereco, tipo, salario);
     }
 
     public String criarEmpregado(String nome, String endereco, String tipo, String salario, String comissao) throws Exception {
+        backup.pushUndo();
         return controle.getEmpregadoDao().create(nome, endereco, tipo, salario, comissao);
     }
 
@@ -71,22 +81,27 @@ public class Facade {
     }
 
     public void alteraEmpregado(String emp, String atributo, String valor) throws Exception {
+        backup.pushUndo();
         controle.getEmpregadoDao().update(emp, atributo, valor);
     }
 
     public void alteraEmpregado(String emp, String atributo, String valor, String salario) throws Exception {
+        backup.pushUndo();
         controle.getEmpregadoDao().update(emp, atributo, valor, salario);
     }
 
     public void alteraEmpregado(String emp, String atributo, String valor, String idSindicato, String taxaSindical) throws Exception {
+        backup.pushUndo();
         controle.getEmpregadoDao().update(emp, atributo, valor, idSindicato, taxaSindical);
     }
 
     public void alteraEmpregado(String emp, String atributo, String tipo, String banco, String agencia, String contaCorrente) throws Exception {
+        backup.pushUndo();
         controle.getEmpregadoDao().update(emp, atributo, tipo, banco, agencia, contaCorrente);
     }
 
     public void removerEmpregado(String emp) throws Exception {
+        backup.pushUndo();
         data.delete(emp);
     }
 
@@ -97,5 +112,18 @@ public class Facade {
     public void rodaFolha(String data, String saida) throws Exception {
         controle.getFolhaDao().rodaFolha(data, saida);
     }
+
+    public String getNumeroDeEmpregados(){
+        return data.getSize();
+    }
+
+    public void undo() throws Exception {
+        data.setEmpregados(backup.popUndo());
+    }
+
+    public void redo() throws Exception {
+        data.setEmpregados(backup.popRedo());
+    }
+
 
 }

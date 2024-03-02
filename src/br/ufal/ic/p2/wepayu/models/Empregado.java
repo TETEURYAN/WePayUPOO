@@ -2,7 +2,7 @@ package br.ufal.ic.p2.wepayu.models;
 
 import br.ufal.ic.p2.wepayu.models.KindPayment.EmMaos;
 
-public abstract class Empregado {
+public abstract class Empregado implements Cloneable{
     private String nome;
     private String endereco;
     private Sindicato sindicalizado;
@@ -61,5 +61,21 @@ public abstract class Empregado {
 
     public abstract String getTipo();
 
+    @Override
+    public Empregado clone() {
+        try {
+            Empregado clone = (Empregado) super.clone();
+
+            if (this.sindicalizado != null)
+                clone.sindicalizado = this.sindicalizado.clone();
+            if(this.metodoPagamento != null)
+                clone.metodoPagamento = this.metodoPagamento.clone();
+
+
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 
 }

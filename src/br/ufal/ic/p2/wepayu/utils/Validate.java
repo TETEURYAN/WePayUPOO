@@ -4,10 +4,13 @@ import br.ufal.ic.p2.wepayu.Exceptions.DataException;
 import br.ufal.ic.p2.wepayu.Exceptions.Employ.AtributoException;
 import br.ufal.ic.p2.wepayu.Exceptions.Employ.EmpregadoException;
 import br.ufal.ic.p2.wepayu.Exceptions.ExceptionErrorMessage;
+import br.ufal.ic.p2.wepayu.exceptions.Agenda.ExceptionAgenda;
+import br.ufal.ic.p2.wepayu.models.Agenda;
 import br.ufal.ic.p2.wepayu.models.Empregado;
 import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoComissionado;
 import br.ufal.ic.p2.wepayu.models.Sindicato;
 import br.ufal.ic.p2.wepayu.services.DBmanager;
+import br.ufal.ic.p2.wepayu.services.Settings;
 
 
 import java.time.DayOfWeek;
@@ -16,6 +19,8 @@ import java.time.LocalDate;
 import java.time.Year;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -191,6 +196,13 @@ public class Validate {
         } catch (NumberFormatException ex) {
             throw new AtributoException("Salario deve ser numerico.");
         }
+    }
+
+    public static void validAgenda(String valor, DBmanager session) throws Exception {
+        for(Agenda e : session.getAgendas()){
+            if(e.getDescricao().equals(valor)) return;
+        }throw new ExceptionAgenda();
+
     }
 
     public static void validComissao(String valor, Empregado e) throws Exception {//Método para avaliar se a comissão é válida

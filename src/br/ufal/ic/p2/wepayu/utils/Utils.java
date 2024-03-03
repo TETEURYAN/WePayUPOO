@@ -6,6 +6,7 @@ import br.ufal.ic.p2.wepayu.exceptions.ExceptionEmpregado;
 import br.ufal.ic.p2.wepayu.exceptions.ExceptionMetodosDePagamento;
 import br.ufal.ic.p2.wepayu.models.*;
 import br.ufal.ic.p2.wepayu.models.KindPayment.Banco;
+import br.ufal.ic.p2.wepayu.services.Settings;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -404,7 +405,7 @@ public class Utils {
             case "nome", "tipo", "salario", "endereco",
                     "comissao", "metodoPagamento", "banco",
                     "agencia", "contaCorrente", "sindicalizado",
-                    "idSindicato", "taxaSindical" -> {
+                    "idSindicato", "taxaSindical", "agendaPagamento" -> {
                 return true;
             }
             default -> {
@@ -575,6 +576,15 @@ public class Utils {
         return value + padChar.repeat(padLength);
     }
 
+
+    public static ArrayList<Agenda> getPadraoAgenda() throws Exception {
+        List<Agenda> agendas = new ArrayList<>();
+        for(String agenda: Settings.PADRAO_AGENDA){
+            agendas.add(new Agenda(agenda));
+        }
+        return (ArrayList<Agenda>) agendas;
+    }
+
     public static class FolhaDePagamentoUtils {
         public static void writeEmpregadoHeader(FileWriter writter, String type) {
             try {
@@ -656,7 +666,6 @@ public class Utils {
             }
         }
 
-
     }
 
     public static class EmpregadoUtils {
@@ -678,8 +687,8 @@ public class Utils {
             }
 
             return sortedMap;
-
-
         }
     }
+
+
 }

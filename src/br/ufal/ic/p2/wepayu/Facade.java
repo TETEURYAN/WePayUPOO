@@ -125,5 +125,12 @@ public class Facade {
         data.setEmpregados(backup.popRedo());
     }
 
+    public void criarAgendaDePagamentos(String descricao) throws Exception{
+        controle.getAgendaDao().create(descricao);
+    }
+
+    public void Quit(){
+
+    }
 
 }

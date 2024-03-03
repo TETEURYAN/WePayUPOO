@@ -7,16 +7,18 @@ public abstract class Empregado implements Cloneable{
     private String endereco;
     private Sindicato sindicalizado;
     private MetodoPagamento metodoPagamento;
+    private String agenda;
 
     public Empregado () {
 
     }
 
-    public Empregado(String nome, String endereco) {
+    public Empregado(String nome, String endereco, String agenda) {
         this.nome = nome;
         this.endereco = endereco;
         this.sindicalizado = null;
         this.metodoPagamento = new EmMaos();
+        this.agenda = agenda;
     }
 
     public void setSindicalizado(Sindicato sindicalizado) {
@@ -26,10 +28,6 @@ public abstract class Empregado implements Cloneable{
     public Sindicato getSindicalizado() {
         return this.sindicalizado;
     }
-
-//    public void addTaxaServico (TaxaServico taxaServico) {
-//        this.sindicalizado.addTaxaServico(taxaServico);
-//    }
 
     public String getNome() {
         return this.nome;
@@ -61,6 +59,14 @@ public abstract class Empregado implements Cloneable{
 
     public abstract String getTipo();
 
+    public String getAgenda() {
+        return agenda;
+    }
+
+    public void setAgenda(String agenda) {
+        this.agenda = agenda;
+    }
+
     @Override
     public Empregado clone() {
         try {
@@ -70,8 +76,6 @@ public abstract class Empregado implements Cloneable{
                 clone.sindicalizado = this.sindicalizado.clone();
             if(this.metodoPagamento != null)
                 clone.metodoPagamento = this.metodoPagamento.clone();
-
-
             return clone;
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();

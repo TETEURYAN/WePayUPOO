@@ -14,7 +14,9 @@ import br.ufal.ic.p2.wepayu.models.MetodoPagamento;
 import br.ufal.ic.p2.wepayu.models.Sindicato;
 import br.ufal.ic.p2.wepayu.services.Memento;
 import br.ufal.ic.p2.wepayu.services.DBmanager;
+import br.ufal.ic.p2.wepayu.services.Settings;
 import br.ufal.ic.p2.wepayu.utils.Utils;
+import br.ufal.ic.p2.wepayu.utils.Validate;
 
 import java.util.Map;
 
@@ -119,9 +121,9 @@ public class EmpregadoDao {
                 double salario = e.getSalario();
 
                 switch (valor) {
-                    case "horista" -> session.setValue(emp, new EmpregadoHorista(nome, endereco, salario));
-                    case "assalariado" -> session.setValue(emp, new EmpregadoAssalariado(nome, endereco, salario));
-                    case "comissionado" -> session.setValue(emp, new EmpregadoComissionado(nome, endereco, salario, 0));
+                    case "horista" -> session.setValue(emp, new EmpregadoHorista(nome, endereco, Settings.PADRAO_HORISTA, salario));
+                    case "assalariado" -> session.setValue(emp, new EmpregadoAssalariado(nome, endereco, Settings.PADRAO_ASSALARIADO, salario));
+                    case "comissionado" -> session.setValue(emp, new EmpregadoComissionado(nome, endereco,Settings.PADRAO_COMISSIONADO, salario, 0));
                 }
             }
 
@@ -134,6 +136,10 @@ public class EmpregadoDao {
 
                 else if (valor.equals("emMaos")) e.setMetodoPagamento(new EmMaos());
 
+            }
+            case "agendaPagamento" ->{
+                Validate.validAgenda(valor, session);
+                e.setAgenda(valor);
             }
         }
     }
@@ -158,7 +164,7 @@ public class EmpregadoDao {
             if (comissao < 0)
                 return;
 
-            DBmanager.setValue(emp, new EmpregadoComissionado(nome, endereco, salario, comissao));
+            session.setValue(emp, new EmpregadoComissionado(nome, endereco, Settings.PADRAO_COMISSIONADO, salario,  comissao));
 
         } else if (valor.equals("horista")) {
             double novoSalario = Utils.validSalario(sal);
@@ -166,7 +172,7 @@ public class EmpregadoDao {
             if (novoSalario < 0)
                 return;
 
-            session.setValue(emp, new EmpregadoHorista(nome, endereco, novoSalario));
+            session.setValue(emp, new EmpregadoHorista(nome, endereco, Settings.PADRAO_HORISTA, novoSalario));
         }
     }
 
@@ -293,6 +299,7 @@ public class EmpregadoDao {
 
                 return Utils.convertDoubleToString(e.getSindicalizado().getTaxaSindical(), 2);
             }
+            case "agendaPagamento" -> {return  e.getAgenda();}
 
         }
 

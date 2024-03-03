@@ -108,8 +108,6 @@ public class Memento {
         if (undo.empty()) {
             throw new ComandoDesfazerException();
         }
-//        System.out.println("Tamanho do undo: " + undo.size());
-
         HashMap<String, Empregado> e = undo.peek();
 
         if (undo.size() > 1)  pushRedo(e);

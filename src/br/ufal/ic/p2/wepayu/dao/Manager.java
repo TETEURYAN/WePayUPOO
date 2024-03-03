@@ -12,6 +12,9 @@ public class Manager {
     private TaxaDao taxaDao;
     private VendaDao vendaDao;
     private FolhaDao folhaDao;
+
+    private AgendaDao agendaDao;
+
     private Memento backup;
 
     public Manager(DBmanager session, Memento backup){
@@ -53,5 +56,12 @@ public class Manager {
             folhaDao = new FolhaDao(session, backup);
         }
         return folhaDao;
+    }
+
+    public AgendaDao getAgendaDao() {
+        if(agendaDao == null){
+            agendaDao = new AgendaDao(session);
+        }
+        return agendaDao;
     }
 }

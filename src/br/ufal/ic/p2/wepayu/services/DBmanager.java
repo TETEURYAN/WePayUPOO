@@ -10,6 +10,7 @@ import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoHorista;
 import br.ufal.ic.p2.wepayu.models.KindPayment.Banco;
 import br.ufal.ic.p2.wepayu.models.KindPayment.Correios;
 import br.ufal.ic.p2.wepayu.models.KindPayment.EmMaos;
+import br.ufal.ic.p2.wepayu.services.XMLStrategy.XMLAgenda;
 import br.ufal.ic.p2.wepayu.services.XMLStrategy.XMLEmpregado;
 import br.ufal.ic.p2.wepayu.utils.Utils;
 
@@ -20,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DBmanager {
@@ -27,12 +29,14 @@ public class DBmanager {
     private static DBmanager session;
     public static HashMap<String, Empregado> empregados;
     private static FactoryEmployee fabrica;
+
+    public static ArrayList<Agenda> agendas;
     public static int key;
 
-    private DBmanager(){
+    private DBmanager()  {
         this.empregados = readEmpregados();
         this.fabrica = new FactoryEmployee();
-
+        this.agendas = readAgendas();
     }
 
     public static DBmanager getDatabase() {
@@ -55,11 +59,19 @@ public class DBmanager {
         return fabrica;
     }
 
+    public ArrayList<Agenda> getAgendas() {
+        return agendas;
+    }
+
     public static String add(Empregado e) {
         key++;
         String id = Integer.toString(key);
         empregados.put(id, e);
         return id;
+    }
+
+    public void addAgenda(Agenda agenda){
+        agendas.add(agenda);
     }
 
     public static Empregado getEmpregado(String key) {
@@ -167,6 +179,23 @@ public class DBmanager {
         return empregados;
     }
 
+    private ArrayList<Agenda> readAgendas() {
+        File file = new File(Settings.PATH_AGENDA + ".xml");
+
+        if (file.exists()) {
+            try (XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(Settings.PATH_AGENDA + ".xml")))) {
+                // Ler o arquivo XML e criar um objeto Java
+                ArrayList<Agenda> folha = (ArrayList<Agenda>) decoder.readObject();
+
+                return folha;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
+    }
+
 
     public Empregado read(String path) {
 
@@ -212,14 +241,17 @@ public class DBmanager {
         }
     }
 
-    public void deleteSystem() {
+    public void deleteSystem() throws Exception {
         initSystem();
         deleteFilesXML();
         deleteFolhas();
+        agendas = Utils.getPadraoAgenda();
     }
 
     public void finishSystem(){
         XMLEmpregado xml = new XMLEmpregado();
+        XMLAgenda fileAgenda = new XMLAgenda();
+        fileAgenda.save(agendas);
         xml.save(DBmanager.empregados);
     }
 

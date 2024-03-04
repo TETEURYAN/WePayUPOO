@@ -1,44 +1,23 @@
 package br.ufal.ic.p2.wepayu.services.XMLStrategy;
 
-import br.ufal.ic.p2.wepayu.services.DBmanager;
 import br.ufal.ic.p2.wepayu.models.Empregado;
-import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoAssalariado;
-import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoComissionado;
-import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoHorista;
+import br.ufal.ic.p2.wepayu.services.Settings;
 
-import java.beans.XMLDecoder;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.beans.XMLEncoder;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
 public class XMLEmpregado {
 
-    public void save(HashMap <String, Empregado> empregados) {
-
-        for (Map.Entry<String, Empregado> m: empregados.entrySet()) {
-            String id = m.getKey();
-            Empregado e = m.getValue();
-
-            if (e.getTipo().equals("horista")) {
-                XMLHorista xml = new XMLHorista();
-
-                xml.save(id, (EmpregadoHorista) e);
+    public static void save(HashMap<String, Empregado> empregados){
+        try (XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(Settings.PATH_PERSISTENCIA + ".xml")))) {
+            for (Map.Entry<String, Empregado> entrada : empregados.entrySet()) {
+                encoder.writeObject(entrada.getKey());
+                encoder.writeObject(entrada.getValue());
             }
-
-            if (e.getTipo().equals("comissionado")) {
-                XMLComissionado xml = new XMLComissionado();
-
-                xml.save(id, (EmpregadoComissionado) e);
-            }
-
-            if (e.getTipo().equals("assalariado")) {
-                XMLAssalariado xml = new XMLAssalariado();
-
-                xml.save(id, (EmpregadoAssalariado) e);
-            }
+            encoder.flush();
+        } catch (Exception ignored) {
         }
     }
 }

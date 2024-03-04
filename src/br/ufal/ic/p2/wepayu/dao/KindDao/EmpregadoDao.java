@@ -1,15 +1,13 @@
 package br.ufal.ic.p2.wepayu.dao.KindDao;
 
-//import br.ufal.ic.p2.wepayu.managment.ParcialManagment;
-import br.ufal.ic.p2.wepayu.exceptions.ExceptionEmpregado;
+import br.ufal.ic.p2.wepayu.exceptions.Query.DontExistNameException;
+import br.ufal.ic.p2.wepayu.models.Agenda;
 import br.ufal.ic.p2.wepayu.models.Empregado;
-import br.ufal.ic.p2.wepayu.services.FactoryEmployee.FactoryEmployee;
-import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoAssalariado;
-import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoComissionado;
-import br.ufal.ic.p2.wepayu.models.KindEmployee.EmpregadoHorista;
-import br.ufal.ic.p2.wepayu.models.KindPayment.Banco;
-import br.ufal.ic.p2.wepayu.models.KindPayment.Correios;
-import br.ufal.ic.p2.wepayu.models.KindPayment.EmMaos;
+import br.ufal.ic.p2.wepayu.services.FactoryEmpregados.FactoryEmpregados;
+import br.ufal.ic.p2.wepayu.models.TiposEmpregados.EmpregadoComissionado;
+import br.ufal.ic.p2.wepayu.models.TiposPagamento.Banco;
+import br.ufal.ic.p2.wepayu.models.TiposPagamento.Correios;
+import br.ufal.ic.p2.wepayu.models.TiposPagamento.EmMaos;
 import br.ufal.ic.p2.wepayu.models.MetodoPagamento;
 import br.ufal.ic.p2.wepayu.models.Sindicato;
 import br.ufal.ic.p2.wepayu.services.Memento;
@@ -20,110 +18,96 @@ import br.ufal.ic.p2.wepayu.utils.Validate;
 
 import java.util.Map;
 
+/**
+ * Data Access Object (DAO) para gerenciamento de Empregado
+ * @author teteuryan faite100
+ */
+
 public class EmpregadoDao {
 
-    private final DBmanager session;
-    private FactoryEmployee fabrica ;
-    private Memento backup;
+    private final DBmanager session; //Banco de dados
+    private FactoryEmpregados fabrica ;// Fábrica de Empregados
+    private Memento backup;//Memento
 
+    /**
+     * Cria uma instância de {@link EmpregadoDao} com base em uma sessão
+     * @param session {@link DBmanager} do banco de dados
+     * Usa tambem os estados armazenados em {@link Memento}
+     */
     public EmpregadoDao(DBmanager session, Memento backup) {
         this.session = session;
         this.fabrica = session.getFabrica();
         this.backup = backup;
     }
 
+    /**
+     * Método de criação de um novo {@link Empregado} com validação de 4 atributos
+     */
     public String create(String nome, String endereco, String tipo, String salario) throws Exception {
-        if (!Utils.validCriarEmpregado(nome, endereco, tipo, salario)) return null;
+        Validate.validEmployInfo(nome, endereco, tipo, salario);
 
-        if (!Utils.validTipoNotComissionado(tipo)) return null;
+        double salarioFormato = Utils.toDouble(salario);
+        Empregado e = fabrica.makeEmployee(nome, endereco, tipo, salarioFormato);
 
-        double salarioFormato = Utils.validSalario(salario);
-
-        if (salarioFormato <= 0) return null;
-
-        return session.add(fabrica.makeEmployee(nome, endereco, tipo, salarioFormato));
+        return session.add(e);
 
     }
 
+    /**
+     * Método de criação de um novo {@link Empregado} com validação de 5 atributos
+     */
     public String create(String nome, String endereco, String tipo, String salario, String comissao) throws Exception {
-        if (!Utils.validCriarEmpregado(nome, endereco, tipo, salario, comissao))
-            return null;
+        Validate.validEmployInfo(nome, endereco, tipo, salario, comissao);
 
-        if (!Utils.validTipoComissionado(tipo))
-            return null;
+        Validate.validSalario(salario);
+        double salarioFormato = Utils.toDouble(salario);
+        double comissaoFormato = Utils.toDouble(comissao);
 
-        double salarioFormato = Utils.validSalario(salario);
-
-        if (salarioFormato <= 0)
-            return null;
-
-        double comissaoFormato = Utils.validComissao(comissao);
-
-        if (comissaoFormato <= 0)
-            return null;
-
-        return session.add(fabrica.makeEmployee(nome, endereco, tipo, salarioFormato, comissaoFormato));
+        Empregado e = fabrica.makeEmployee(nome, endereco, tipo, salarioFormato, comissaoFormato);
+        return session.add(e);
     }
 
+    /**
+     * Método de alteração de um novo {@link Empregado} com validação de 3 atributos
+     */
     public void update(String emp, String atributo, String valor) throws Exception {
+        Empregado e = session.getEmpregado(emp);
 
-        Empregado e = Utils.validEmpregado(emp);
-
-        if (e == null)
-            return;
-
-        if (!Utils.validGetAtributo(emp, atributo)) {
-            return;
-        }
+        Validate.validAtributo(atributo);
 
         switch (atributo) {
             case "nome" -> {
-                if (Utils.validNome(valor))
+                    Validate.validNome(valor);
                     e.setNome(valor);
             }
             case "endereco" -> {
-                if (Utils.validEndereco(valor))
+                    Validate.validEndereco(valor);
                     e.setEndereco(valor);
             }
             case "salario" -> {
-                double salario = Utils.validSalario(valor);
-
-                if (salario < 0)
-                    return;
-
-                e.setSalario(salario);
+                Validate.validSalario(valor);
+                e.setSalario(Utils.toDouble(valor));
             }
             case "sindicalizado" -> {
-                if (Utils.validSindicalizado(valor)) {
-                    e.setSindicalizado(null);
-                }
+                Validate.validAtributoSyndicate(valor);
+                e.setSindicalizado(null);
             }
             case "comissao" -> {
-
-                double comissao = Utils.validComissao(valor);
-
-                if (comissao < 0)
-                    return;
-
-                if (!Utils.empregadoIsNotComissionado(e))
-                    return;
-
+                Validate.validComissao(valor,e.getTipo());
+                double comissao = Utils.toDouble(valor);
                 ((EmpregadoComissionado) e).setTaxaDeComissao(comissao);
             }
             case "tipo" -> {
 
-                if (Utils.validAlterarTipo(e, valor)) {
-                    return;
-                }
-
+                Validate.validAlterarTipo(e, valor);
                 String nome = e.getNome();
                 String endereco = e.getEndereco();
                 double salario = e.getSalario();
 
                 switch (valor) {
-                    case "horista" -> session.setValue(emp, new EmpregadoHorista(nome, endereco, Settings.PADRAO_HORISTA, salario));
-                    case "assalariado" -> session.setValue(emp, new EmpregadoAssalariado(nome, endereco, Settings.PADRAO_ASSALARIADO, salario));
-                    case "comissionado" -> session.setValue(emp, new EmpregadoComissionado(nome, endereco,Settings.PADRAO_COMISSIONADO, salario, 0));
+                    case "horista" -> session.setValue(emp,fabrica.makeEmployee(nome, endereco, Settings.HORISTA, salario) );
+                    case "assalariado" -> session.setValue(emp, fabrica.makeEmployee(nome, endereco, Settings.ASSALARIADO, salario));
+                    case "comissionado" -> session.setValue(emp, fabrica.makeEmployee(nome, endereco, Settings.COMISSIONADO, salario, 0));
                 }
             }
 
@@ -133,176 +117,114 @@ public class EmpregadoDao {
                     return;
 
                 if (valor.equals("correios")) e.setMetodoPagamento(new Correios());
-
                 else if (valor.equals("emMaos")) e.setMetodoPagamento(new EmMaos());
-
             }
             case "agendaPagamento" ->{
                 Validate.validAgenda(valor, session);
-                e.setAgenda(valor);
+                e.setAgenda(new Agenda(valor));
             }
         }
     }
 
-    // 4 variaveis
+    /**
+     * Método de alteração de um novo {@link Empregado} com validação de 4 atributos
+     */
     public void update(String emp, String atributo, String valor, String sal) throws Exception {
-        Empregado e = Utils.validEmpregado(emp);
+        Empregado e = session.getEmpregado(emp);
 
-        if (e == null)
-            return;
-
-        if (!Utils.validGetAtributo(emp, atributo))
-            return;
-
+        Validate.validAtributo(atributo);
         String nome = e.getNome();
         String endereco = e.getEndereco();
 
         if (valor.equals("comissionado")) {
             double salario = e.getSalario();
-            double comissao = Utils.validComissao(sal);
+            Validate.validComissao(sal, valor);
+            double comissao = Utils.toDouble(sal);
 
-            if (comissao < 0)
-                return;
-
-            session.setValue(emp, new EmpregadoComissionado(nome, endereco, Settings.PADRAO_COMISSIONADO, salario,  comissao));
-
+            session.setValue(emp, fabrica.makeEmployee(nome, endereco, valor, salario, comissao));
         } else if (valor.equals("horista")) {
-            double novoSalario = Utils.validSalario(sal);
+            Validate.validSalario(sal);
+            double novoSalario = Utils.toDouble(sal);
 
-            if (novoSalario < 0)
-                return;
-
-            session.setValue(emp, new EmpregadoHorista(nome, endereco, Settings.PADRAO_HORISTA, novoSalario));
+            session.setValue(emp, fabrica.makeEmployee(nome, endereco, valor, novoSalario) );
         }
     }
 
-    // 5 variaveis
+    /**
+     * Método de alteração de um novo {@link Empregado} com validação de 5 atributos
+     */
     public void update(String emp, String atributo, String valor, String idSindicato, String taxaSindical) throws Exception {
 
-        if (Utils.validIdSindical(idSindicato))
-            return;
-
-        double taxaSindicalNumber = Utils.validTaxaSindical(taxaSindical);
-
-        if (taxaSindicalNumber <= 0.0)
-            return;
+        Validate.validsyndicalWarm(idSindicato, taxaSindical);
+        double taxaSindicalNumber = Utils.toDouble(taxaSindical);
 
         if (atributo.equals("sindicalizado") && valor.equals("true")) {
-
-            if (Utils.sindicalizarEmpregado(idSindicato)) {
-                Empregado e = Utils.validEmpregado(emp);
-
-                if (e == null) return;
+                Validate.validDuplicateID(idSindicato);
+                Empregado e = session.getEmpregado(emp);
 
                 e.setSindicalizado(new Sindicato(idSindicato, taxaSindicalNumber));
-            }
         }
     }
 
-    // 6 variaveis
+    /**
+     * Método de alteração de um novo {@link Empregado} com validação de 6 atributos
+     */
     public void update(String emp, String atributo, String tipo, String banco, String agencia, String contaCorrente) throws Exception {
-        Empregado e = Utils.validEmpregado(emp);
+        Empregado e = session.getEmpregado(emp);
 
-        if (e == null)
-            return;
-
-        if (!Utils.validGetAtributo(emp, atributo))
-            return;
-
-        if (Utils.validBanco(banco, agencia, contaCorrente))
+        Validate.validAtributo(atributo);
+        Validate.validWayBanco(banco, agencia, contaCorrente);
             e.setMetodoPagamento(new Banco(banco, agencia, contaCorrente));
     }
 
-
+    /**
+     * Método de procura de um {@link Empregado} a partir do nome
+     */
     public String getByName(String nome, int indice) throws Exception {
 
         int count = 0;
 
         for (Map.Entry<String, Empregado> entry : DBmanager.empregados.entrySet()) {
-
             Empregado e = entry.getValue();
-
-            if (nome.contains(e.getNome()))
-                count++;
-
-            if (count == indice)
-                return entry.getKey();
+            if (nome.contains(e.getNome())) count++;
+            if (count == indice) return entry.getKey();
         }
+        throw new DontExistNameException();
 
-        ExceptionEmpregado ex = new ExceptionEmpregado();
-
-        ex.msgEmpregadoNaoExistePorNome();
-
-        return null;
     }
 
+    /**
+     * Método de procura de um atributo {@link Empregado} a partir do ID do Empregado
+     */
     public String getAtributo(String emp, String atributo) throws Exception {
 
-        Empregado e = Utils.validEmpregado(emp);
-
-        if (e == null)
-            return null;
-
-        if (!Utils.validGetAtributo(emp, atributo))
-            return null;
+        Empregado e = session.getEmpregado(emp);
+        Validate.validAtributo(atributo);
 
         switch (atributo) {
 
-            case "nome" -> {
-                return e.getNome();
-            }
-            case "tipo" -> {
-                return e.getTipo();
-            }
-            case "salario" -> {
-                return Utils.convertDoubleToString(e.getSalario(), 2);
-            }
-            case "endereco" -> {
-                return e.getEndereco();
-            }
+            case "nome" -> {return e.getNome();}
+            case "tipo" -> {return e.getTipo();}
+            case "salario" -> {return Utils.convertDoubleToString(e.getSalario(), 2);}
+            case "endereco" -> {return e.getEndereco();}
             case "comissao" -> {
-
-                if (Utils.empregadoIsNotComissionado(e))
+                    Validate.validComissionado(e);
                     return Utils.convertDoubleToString(((EmpregadoComissionado) e).getTaxaDeComissao(), 2);
-
-                return null;
             }
-
-            case "metodoPagamento" -> {
-                return e.getMetodoPagamento().getMetodoPagamento();
-            }
-
+            case "metodoPagamento" -> {return e.getMetodoPagamento().getMetodoPagamento();}
             case "banco", "agencia", "contaCorrente" -> {
                 MetodoPagamento metodoPagamento = e.getMetodoPagamento();
-
-                if (!Utils.metodoPagamentoIsBanco(metodoPagamento))
-                    return null;
-
-                if (atributo.equals("banco")) return ((Banco) metodoPagamento).getBanco();
-                if (atributo.equals("agencia")) return ((Banco) metodoPagamento).getAgencia();
-
-                return ((Banco) metodoPagamento).getContaCorrente();
+                Validate.validBankPaymentWay(metodoPagamento);
+                return (atributo.equals("banco")) ? ((Banco) metodoPagamento).getBanco() : (atributo.equals("agencia")) ?  ((Banco) metodoPagamento).getAgencia() : ((Banco) metodoPagamento).getContaCorrente();
             }
-
-            case "sindicalizado" -> {
-                if (e.getSindicalizado() == null) return "false";
-                else return "true";
-            }
-
+            case "sindicalizado" -> {return (e.getSindicalizado() == null) ? "false" : "true";}
             case "idSindicato", "taxaSindical" -> {
                 Sindicato ms = e.getSindicalizado();
-
-                if (!Utils.validSindicato(ms))
-                    return null;
-
-                if (atributo.equals("idSindicato")) return ms.getIdMembro();
-
-                return Utils.convertDoubleToString(e.getSindicalizado().getTaxaSindical(), 2);
+                Validate.validSyndicate(ms);
+                return (atributo.equals("idSindicato")) ? ms.getIdMembro() : Utils.convertDoubleToString(e.getSindicalizado().getTaxaSindical(), 2);
             }
-            case "agendaPagamento" -> {return  e.getAgenda();}
-
+            case "agendaPagamento" -> {return  e.getAgenda().getDescricao();}
         }
-
         return null;
     }
 }

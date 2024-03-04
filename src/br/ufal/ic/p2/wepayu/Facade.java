@@ -24,7 +24,7 @@ public class Facade {
     }
 
     public void zerarSistema() throws Exception {
-        backup.pushUndo();
+        backup.push();
         this.data.deleteSystem();
     }
 
@@ -35,12 +35,12 @@ public class Facade {
     }
 
     public String criarEmpregado(String nome, String endereco, String tipo, String salario) throws Exception {
-        backup.pushUndo();
+        backup.push();
         return controle.getEmpregadoDao().create(nome, endereco, tipo, salario);
     }
 
     public String criarEmpregado(String nome, String endereco, String tipo, String salario, String comissao) throws Exception {
-        backup.pushUndo();
+        backup.push();
         return controle.getEmpregadoDao().create(nome, endereco, tipo, salario, comissao);
     }
 
@@ -81,27 +81,27 @@ public class Facade {
     }
 
     public void alteraEmpregado(String emp, String atributo, String valor) throws Exception {
-        backup.pushUndo();
+        backup.push();
         controle.getEmpregadoDao().update(emp, atributo, valor);
     }
 
     public void alteraEmpregado(String emp, String atributo, String valor, String salario) throws Exception {
-        backup.pushUndo();
+        backup.push();
         controle.getEmpregadoDao().update(emp, atributo, valor, salario);
     }
 
     public void alteraEmpregado(String emp, String atributo, String valor, String idSindicato, String taxaSindical) throws Exception {
-        backup.pushUndo();
+        backup.push();
         controle.getEmpregadoDao().update(emp, atributo, valor, idSindicato, taxaSindical);
     }
 
     public void alteraEmpregado(String emp, String atributo, String tipo, String banco, String agencia, String contaCorrente) throws Exception {
-        backup.pushUndo();
+        backup.push();
         controle.getEmpregadoDao().update(emp, atributo, tipo, banco, agencia, contaCorrente);
     }
 
     public void removerEmpregado(String emp) throws Exception {
-        backup.pushUndo();
+        backup.push();
         data.delete(emp);
     }
 

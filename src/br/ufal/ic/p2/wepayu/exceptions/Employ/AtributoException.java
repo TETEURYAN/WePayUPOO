@@ -1,5 +1,5 @@
-package br.ufal.ic.p2.wepayu.Exceptions.Employ;
+package br.ufal.ic.p2.wepayu.exceptions.Employ;
 
 public class AtributoException extends Exception{
-    public AtributoException(String msg){ super(msg); }
+    public AtributoException(){ super("Atributo nao existe."); }
 }

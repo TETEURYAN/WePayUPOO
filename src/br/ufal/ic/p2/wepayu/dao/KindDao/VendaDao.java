@@ -1,6 +1,7 @@
 package br.ufal.ic.p2.wepayu.dao.KindDao;
 
 import br.ufal.ic.p2.wepayu.models.Empregado;
+import br.ufal.ic.p2.wepayu.models.TiposCartao.CartaoDeVenda;
 import br.ufal.ic.p2.wepayu.models.TiposEmpregados.Decorator.Venda;
 import br.ufal.ic.p2.wepayu.models.TiposEmpregados.EmpregadoComissionado;
 import br.ufal.ic.p2.wepayu.services.Memento;
@@ -9,6 +10,7 @@ import br.ufal.ic.p2.wepayu.utils.Utils;
 import br.ufal.ic.p2.wepayu.utils.Validate;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  * Data Access Object (DAO) para o Cartão de Vendas do Empregado Comissionado
@@ -68,5 +70,21 @@ public class VendaDao {
             return Utils.convertDoubleToString(vendas, 2);
         }
         return "0,00";
+    }
+
+
+    public static ArrayList<CartaoDeVenda> copyArrayCardSale(ArrayList<CartaoDeVenda> origin) {//Metodo para copiar o cartão e venda
+        ArrayList<CartaoDeVenda> copy = new ArrayList<>();
+
+        for (CartaoDeVenda c : origin) {
+            CartaoDeVenda copyCartaoDeVenda = new CartaoDeVenda();
+
+            copyCartaoDeVenda.setData(c.getData());
+            copyCartaoDeVenda.setHoras(c.getHoras());
+
+            copy.add(copyCartaoDeVenda);
+        }
+
+        return  copy;
     }
 }

@@ -1,4 +1,4 @@
-package br.ufal.ic.p2.wepayu.models.TiposEmpregados.Decorator.KindEmploye;
+package br.ufal.ic.p2.wepayu.models.TiposEmpregados.Decorator.TiposDecorator;
 
 import br.ufal.ic.p2.wepayu.models.TiposEmpregados.EmpregadoHorista;
 

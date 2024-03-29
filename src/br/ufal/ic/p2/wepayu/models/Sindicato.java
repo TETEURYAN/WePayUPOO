@@ -85,6 +85,35 @@ public class Sindicato implements Cloneable {
     /**
      * Método para clonar a classe Sindicato por meio do Cloneable
      */
+
+    public static Sindicato copySindicato(Sindicato origin) {// metodo para copiar o sindicato
+
+        Sindicato copy = null;
+
+        if (origin != null) {
+            copy = new Sindicato();
+            copy.setIdMembro(origin.getIdMembro());
+            copy.setTaxaSindical(origin.getTaxaSindical());
+
+            ArrayList<CartaoDeServico> copyArrayCartaoDeServico = new ArrayList<>();
+
+            ArrayList<CartaoDeServico> originArrayCartaoDeServico = origin.getTaxaServicos();
+
+            for (CartaoDeServico t : originArrayCartaoDeServico) {
+                CartaoDeServico copyCartaoDeServico = new CartaoDeServico();
+
+                copyCartaoDeServico.setData(t.getData());
+                copyCartaoDeServico.setValor(t.getValor());
+
+                copyArrayCartaoDeServico.add(copyCartaoDeServico);
+            }
+
+            copy.setTaxaServicos(copyArrayCartaoDeServico);
+        }
+
+        return copy;
+    }
+
     @Override
     public Sindicato clone() {
         try {

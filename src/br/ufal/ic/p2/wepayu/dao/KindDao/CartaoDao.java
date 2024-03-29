@@ -1,6 +1,7 @@
 package br.ufal.ic.p2.wepayu.dao.KindDao;
 
 import br.ufal.ic.p2.wepayu.models.Empregado;
+import br.ufal.ic.p2.wepayu.models.TiposCartao.CartaoDePonto;
 import br.ufal.ic.p2.wepayu.models.TiposEmpregados.Decorator.Horas;
 import br.ufal.ic.p2.wepayu.models.TiposEmpregados.EmpregadoHorista;
 import br.ufal.ic.p2.wepayu.services.Memento;
@@ -9,6 +10,7 @@ import br.ufal.ic.p2.wepayu.utils.Utils;
 import br.ufal.ic.p2.wepayu.utils.Validate;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  * Data Access Object (DAO) para gerenciamento de Cartão de Ponto dos Empregados Horistas
@@ -90,5 +92,20 @@ public class CartaoDao {
             return Utils.convertDoubleToString(horasAcumuladas);
         }
         return "0,00";
+    }
+
+    public static ArrayList<CartaoDePonto> copyArrayCardPoint(ArrayList<CartaoDePonto> origin) {//Metodo para copiar o cartão de ponton
+        ArrayList<CartaoDePonto> copy = new ArrayList<>();
+
+        for (CartaoDePonto c : origin) {
+            CartaoDePonto copyCartaoDePonto = new CartaoDePonto();
+
+            copyCartaoDePonto.setData(c.getData());
+            copyCartaoDePonto.setHoras(c.getHoras());
+
+            copy.add(copyCartaoDePonto);
+        }
+
+        return  copy;
     }
 }

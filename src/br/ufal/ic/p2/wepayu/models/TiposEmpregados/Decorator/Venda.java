@@ -1,7 +1,7 @@
 package br.ufal.ic.p2.wepayu.models.TiposEmpregados.Decorator;
 
 import br.ufal.ic.p2.wepayu.models.TiposCartao.CartaoDeVenda;
-import br.ufal.ic.p2.wepayu.models.TiposEmpregados.Decorator.KindEmploye.DecoratorComissionado;
+import br.ufal.ic.p2.wepayu.models.TiposEmpregados.Decorator.TiposDecorator.DecoratorComissionado;
 import br.ufal.ic.p2.wepayu.models.TiposEmpregados.EmpregadoComissionado;
 
 /**

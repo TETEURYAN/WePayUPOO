@@ -3,6 +3,7 @@ package br.ufal.ic.p2.wepayu.services.XMLStrategy;
 import br.ufal.ic.p2.wepayu.models.Empregado;
 import br.ufal.ic.p2.wepayu.services.Settings;
 
+import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.*;
 import java.util.HashMap;
@@ -20,4 +21,26 @@ public class XMLEmpregado {
         } catch (Exception ignored) {
         }
     }
+
+    public static HashMap<String, Empregado>  carregarEmpregadosDeXML() {//Método para carregar a persistencia
+        HashMap<String, Empregado> empregados = new HashMap<>();
+
+        try(BufferedInputStream file = new BufferedInputStream(new FileInputStream(Settings.PATH_PERSISTENCIA + ".xml"))){
+            XMLDecoder decoder = new XMLDecoder(file);
+            while(true){
+                try{
+                    String id = (String) decoder.readObject();
+                    Empregado aux = (Empregado) decoder.readObject();
+                    empregados.put(id, aux);
+                }catch (Exception e) {
+                    break;
+                }
+            }
+            decoder.close();
+        }catch (IOException e) {
+            System.out.println("Arquivo nao encontrado");
+        }
+        return empregados;
+    }
+
 }

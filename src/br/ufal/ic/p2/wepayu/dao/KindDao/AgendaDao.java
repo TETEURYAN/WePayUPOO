@@ -3,6 +3,10 @@ package br.ufal.ic.p2.wepayu.dao.KindDao;
 import br.ufal.ic.p2.wepayu.exceptions.Agenda.ExceptionAgenda;
 import br.ufal.ic.p2.wepayu.exceptions.Agenda.ExceptionAgendaExiste;
 import br.ufal.ic.p2.wepayu.models.Agenda;
+import br.ufal.ic.p2.wepayu.models.MetodoPagamento;
+import br.ufal.ic.p2.wepayu.models.TiposPagamento.Banco;
+import br.ufal.ic.p2.wepayu.models.TiposPagamento.Correios;
+import br.ufal.ic.p2.wepayu.models.TiposPagamento.EmMaos;
 import br.ufal.ic.p2.wepayu.services.DBmanager;
 import br.ufal.ic.p2.wepayu.utils.Validate;
 
@@ -42,6 +46,27 @@ public class AgendaDao {
             if(a.toString().equals(descricao)) return true;
         }
         return false;
+    }
+
+    public static MetodoPagamento copyMetodoPagamento(MetodoPagamento origin) {//Metodo para copiar o metodo de pagamento
+
+        if (origin.getMetodoPagamento().equals("emMaos"))
+            return new EmMaos();
+
+        if (origin.getMetodoPagamento().equals("correios"))
+            return new Correios();
+
+        if (origin.getMetodoPagamento().equals("banco")) {
+            Banco copy = new Banco();
+
+            copy.setBanco(((Banco) origin).getBanco());
+            copy.setAgencia(((Banco) origin).getAgencia());
+            copy.setContaCorrente(((Banco) origin).getContaCorrente());
+
+            return copy;
+        }
+
+        return null;
     }
 
 }

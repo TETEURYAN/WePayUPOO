@@ -1,4 +1,7 @@
 package br.ufal.ic.p2.wepayu.services;
+import br.ufal.ic.p2.wepayu.dao.KindDao.AgendaDao;
+import br.ufal.ic.p2.wepayu.dao.KindDao.CartaoDao;
+import br.ufal.ic.p2.wepayu.dao.KindDao.VendaDao;
 import br.ufal.ic.p2.wepayu.models.*;
 import br.ufal.ic.p2.wepayu.services.FactoryEmpregados.FactoryEmpregados;
 import br.ufal.ic.p2.wepayu.models.TiposCartao.CartaoDePonto;
@@ -42,7 +45,7 @@ public class DBmanager {
      * Agenda de pagamento
      */
     private DBmanager()  {
-        this.empregados = carregarEmpregadosDeXML();
+        this.empregados = XMLEmpregado.carregarEmpregadosDeXML();
         this.fabrica = new FactoryEmpregados();
         this.agendas = readAgendas();
     }
@@ -155,35 +158,12 @@ public class DBmanager {
 
         return null;
     }
-
     public static void setValue(String key, Empregado e) { empregados.replace(key, e); }
 
     public void delete(String emp) throws Exception {//Remover um usuário da hash
         Empregado e = getEmpregado(emp);
         empregados.remove(emp);
     }
-
-    public static HashMap<String, Empregado>  carregarEmpregadosDeXML() {//Método para carregar a persistencia
-        HashMap<String, Empregado> empregados = new HashMap<>();
-
-        try(BufferedInputStream file = new BufferedInputStream(new FileInputStream(Settings.PATH_PERSISTENCIA + ".xml"))){
-            XMLDecoder decoder = new XMLDecoder(file);
-            while(true){
-                try{
-                    String id = (String) decoder.readObject();
-                    Empregado aux = (Empregado) decoder.readObject();
-                    empregados.put(id, aux);
-                }catch (Exception e) {
-                    break;
-                }
-            }
-            decoder.close();
-        }catch (IOException e) {
-            System.out.println("Arquivo nao encontrado");
-        }
-        return empregados;
-    }
-
 
     private ArrayList<Agenda> readAgendas() {//Metodo para ler a persistencia da Agenda de Pagamentos
         File file = new File(Settings.PATH_AGENDA + ".xml");
@@ -248,95 +228,16 @@ public class DBmanager {
         return Integer.toString(tam);
     }
 
-    private Sindicato copySindicato(Sindicato origin) {// metodo para copiar o sindicato
-
-        Sindicato copy = null;
-
-        if (origin != null) {
-            copy = new Sindicato();
-            copy.setIdMembro(origin.getIdMembro());
-            copy.setTaxaSindical(origin.getTaxaSindical());
-
-            ArrayList<CartaoDeServico> copyArrayCartaoDeServico = new ArrayList<>();
-
-            ArrayList<CartaoDeServico> originArrayCartaoDeServico = origin.getTaxaServicos();
-
-            for (CartaoDeServico t : originArrayCartaoDeServico) {
-                CartaoDeServico copyCartaoDeServico = new CartaoDeServico();
-
-                copyCartaoDeServico.setData(t.getData());
-                copyCartaoDeServico.setValor(t.getValor());
-
-                copyArrayCartaoDeServico.add(copyCartaoDeServico);
-            }
-
-            copy.setTaxaServicos(copyArrayCartaoDeServico);
-        }
-
-        return copy;
-    }
-
-    private MetodoPagamento copyMetodoPagamento(MetodoPagamento origin) {//Metodo para copiar o metodo de pagamento
-
-        if (origin.getMetodoPagamento().equals("emMaos"))
-            return new EmMaos();
-
-        if (origin.getMetodoPagamento().equals("correios"))
-            return new Correios();
-
-        if (origin.getMetodoPagamento().equals("banco")) {
-            Banco copy = new Banco();
-
-            copy.setBanco(((Banco) origin).getBanco());
-            copy.setAgencia(((Banco) origin).getAgencia());
-            copy.setContaCorrente(((Banco) origin).getContaCorrente());
-
-            return copy;
-        }
-
-        return null;
-    }
-
-    private ArrayList<CartaoDeVenda> copyArrayCardSale (ArrayList<CartaoDeVenda> origin) {//Metodo para copiar o cartão e venda
-        ArrayList<CartaoDeVenda> copy = new ArrayList<>();
-
-        for (CartaoDeVenda c : origin) {
-            CartaoDeVenda copyCartaoDeVenda = new CartaoDeVenda();
-
-            copyCartaoDeVenda.setData(c.getData());
-            copyCartaoDeVenda.setHoras(c.getHoras());
-
-            copy.add(copyCartaoDeVenda);
-        }
-
-        return  copy;
-    }
-
-    private ArrayList<CartaoDePonto> copyArrayCardPoint (ArrayList<CartaoDePonto> origin) {//Metodo para copiar o cartão de ponton
-        ArrayList<CartaoDePonto> copy = new ArrayList<>();
-
-        for (CartaoDePonto c : origin) {
-            CartaoDePonto copyCartaoDePonto = new CartaoDePonto();
-
-            copyCartaoDePonto.setData(c.getData());
-            copyCartaoDePonto.setHoras(c.getHoras());
-
-            copy.add(copyCartaoDePonto);
-        }
-
-        return  copy;
-    }
-
     private Empregado setAtributosEmpregado(Empregado copy, Empregado origin) {
         copy.setNome(origin.getNome());
         copy.setEndereco(origin.getEndereco());
         copy.setSalario(origin.getSalario());
 
-        Sindicato mCopy = copySindicato(origin.getSindicalizado());
+        Sindicato mCopy = Sindicato.copySindicato(origin.getSindicalizado());
 
         copy.setSindicalizado(mCopy);
 
-        MetodoPagamento pCopy = copyMetodoPagamento(origin.getMetodoPagamento());
+        MetodoPagamento pCopy = AgendaDao.copyMetodoPagamento(origin.getMetodoPagamento());
 
         copy.setMetodoPagamento(pCopy);
 
@@ -362,7 +263,7 @@ public class DBmanager {
                 //Comissionado
                 copy.setTaxaDeComissao(origin.getTaxaDeComissao());
 
-                ArrayList<CartaoDeVenda> cCopy = copyArrayCardSale(origin.getVendas());
+                ArrayList<CartaoDeVenda> cCopy = VendaDao.copyArrayCardSale(origin.getVendas());
                 copy.setVendas(cCopy);
 
                 hash.put(id, copy);
@@ -385,7 +286,7 @@ public class DBmanager {
 
                 //Horista
 
-                ArrayList<CartaoDePonto> cCopy = copyArrayCardPoint(origin.getCartao());
+                ArrayList<CartaoDePonto> cCopy = CartaoDao.copyArrayCardPoint(origin.getCartao());
                 copy.setCartao(cCopy);
 
                 hash.put(id, copy);
